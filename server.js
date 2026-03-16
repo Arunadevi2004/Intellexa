@@ -111,10 +111,14 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     // --- Cloudinary Upload ---
     if (req.file) {
       try {
+        // Sanitize name for filename (remove special chars and spaces)
+        const safeName = full_name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const timestamp = Date.now();
+        
         const result = await cloudinary.uploader.upload(req.file.path, {
           folder: 'intellexa_registrations',
-          use_filename: true,
-          unique_filename: true
+          public_id: `${safeName}_${timestamp}`,
+          resource_type: 'auto'
         });
         
         // Use Cloudinary secure URL if upload is successful
