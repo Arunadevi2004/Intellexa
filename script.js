@@ -124,6 +124,12 @@ document.getElementById('txnScreenshot').addEventListener('change', function () 
   const img = document.getElementById('preview-img');
   const nameEl = document.getElementById('file-name-display');
   if (file && file.type.startsWith('image/')) {
+    if (file.size > 1 * 1024 * 1024) {
+      alert('Image size exceeds 1MB. Please upload a smaller image.');
+      this.value = ''; // Clear the input
+      preview.style.display = 'none';
+      return;
+    }
     const r = new FileReader();
     r.onload = e => { img.src = e.target.result; preview.style.display = 'block'; nameEl.textContent = file.name; };
     r.readAsDataURL(file);
