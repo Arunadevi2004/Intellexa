@@ -15,7 +15,14 @@ To host this project for free, we will use **MongoDB Atlas** for the database an
 
 ---
 
-### Step 2: Prepare your Code for GitHub
+### Step 2: Set up Cloudinary (Persistent Image Storage)
+1.  **Sign up:** Go to [cloudinary.com](https://cloudinary.com/) and create a free account.
+2.  **Get Credentials:** On your Dashboard, find your **Cloud Name**, **API Key**, and **API Secret**.
+3.  **Save these:** You will need them for the Render environment variables.
+
+---
+
+### Step 3: Prepare your Code for GitHub
 1.  Initialize a Git repository in your project folder:
     ```bash
     git init
@@ -26,18 +33,24 @@ To host this project for free, we will use **MongoDB Atlas** for the database an
 
 ---
 
-### Step 3: Deploy to Render (Frontend + Backend)
+### Step 4: Deploy to Render (Frontend + Backend)
 1.  **Sign up:** Go to [render.com](https://render.com/) and connect your GitHub account.
 2.  **Create a New Web Service:** Click **"New +"** → **"Web Service"** and select your GitHub repository.
 3.  **Settings:**
     *   **Runtime:** Node
     *   **Build Command:** `npm install`
-    *   **Start Command:** `node server.js`
+    *   **Start Command:** `npm start`
 4.  **Environment Variables:** Click on the "Environment" tab and add:
     *   `MONGODB_URI`: (Paste your MongoDB Atlas connection string here)
-    *   `PORT`: 10000 (Render uses this by default)
+    *   `PORT`: 10000
     *   `ADMIN_USER`: admin
     *   `ADMIN_PASS`: (Your chosen admin password)
+    *   `ALLOWED_ORIGIN`: *
+    *   `UPLOAD_DIR`: uploads/
+    *   `MAX_FILE_SIZE`: 5242880
+    *   `CLOUDINARY_CLOUD_NAME`: (Your Cloudinary Cloud Name)
+    *   `CLOUDINARY_API_KEY`: (Your Cloudinary API Key)
+    *   `CLOUDINARY_API_SECRET`: (Your Cloudinary API Secret)
 5.  **Deploy:** Click **"Create Web Service"**.
 
 ---

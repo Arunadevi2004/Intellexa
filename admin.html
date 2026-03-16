@@ -193,7 +193,7 @@
           </td>
           <td>
             <small>ID: ${reg.transactionId}</small><br>
-            <a href="/${reg.screenshotPath}" target="_blank" class="view-btn">View Screenshot →</a>
+            <a href="${reg.screenshotPath.startsWith('http') ? reg.screenshotPath : '/' + reg.screenshotPath}" target="_blank" class="view-btn">View Screenshot →</a>
           </td>
           <td><span class="badge ${reg.status}">${reg.status}</span></td>
           <td>

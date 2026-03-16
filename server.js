@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
@@ -10,6 +11,13 @@ const Participant = require('./models/Participant');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Middleware
 app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
@@ -84,21 +92,32 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     const isPaper = is_paper === '1';
 
     const registrationData = {
-      fullName: full_name,
-      yearOfStudy: year_of_study,
-      degree,
-      department,
-      collegeName: college_name,
-      collegeLocation: college_location,
-      email,
-      phone,
-      referralCode: referral_code || null,
-      transactionId: transaction_id,
-      screenshotPath: req.file ? `uploads/${req.file.filename}` : null,
-      events: parsedEvents,
       isPaper,
-      ipAddress: req.ip
+      ipAddress: req.ip,
+      screenshotPath: req.file ? `uploads/${req.file.filename}` : null // Initial local fallback
     };
+
+    // --- Cloudinary Upload ---
+    if (req.file) {
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: 'intellexa_registrations',
+          use_filename: true,
+          unique_filename: true
+        });
+        
+        // Use Cloudinary secure URL if upload is successful
+        registrationData.screenshotPath = result.secure_url;
+        
+        // Delete local temporary file
+        fs.unlinkSync(req.file.path);
+      } catch (uploadError) {
+        console.error('CLOUDINARY UPLOAD ERROR:', uploadError);
+        // Fallback: On Render, this local file will be lost eventually, 
+        // but we keep the local path for now to satisfy the DB 'required' constraint.
+        // The real fix is ensuring Cloudinary is configured on Render.
+      }
+    }
 
     if (isPaper) {
       const parsedMemberNames = JSON.parse(member_names || '[]');
