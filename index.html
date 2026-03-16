@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTELLEXA '26 – Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ========== SITE HEADER ========== -->
+<header class="site-header">
+  <div class="header-top">
+
+    <!-- Logo pinned to left -->
+    <div class="header-logo">
+      <img src="logo.png" alt="rit">
+    </div>
+
+    <!-- Centered institute info -->
+    <div class="header-center">
+      <div class="institute-name">Ramco Institute of Technology, Rajapalayam</div>
+      <div class="institute-sub">
+        (An Autonomous Institution)<br>
+        Approved by AICTE, New Delhi &amp; Affiliated to Anna University<br>
+        NAAC Accredited with 'A+' Grade &nbsp;|&nbsp; An ISO 9001:2015 Certified Institution
+      </div>
+      <div class="dept-line">Department of Computer Science and Engineering</div>
+      <div class="collab-line">in collaboration with RIT CSI and RIT IE(I) Student Chapter</div>
+    </div>
+
+  </div>
+
+  <!-- Gold title banner -->
+  <div class="event-banner">
+    <div class="event-title">INTELLEXA '26</div>
+    <div class="event-subtitle">National Level Technical Symposium</div>
+    <div class="event-fee-badge">Registration Fee: ₹200</div>
+  </div>
+</header>
+
+<!-- ========== NAVIGATION ========== -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a href="#workshop-section"     class="nav-link">Workshop</a>
+    <a href="#technical-section"    class="nav-link">Technical Events</a>
+    <a href="#nontechnical-section" class="nav-link">Non Technical Events</a>
+  </div>
+</nav>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="page-wrapper">
+
+  <!-- Workshop -->
+  <div id="workshop-section" class="events-section section-anchor">
+    <div class="section-heading">Workshop</div>
+    <div class="event-tags">
+      <span class="event-tag">🤖 NEXA AI Workshop</span>
+    </div>
+  </div>
+
+  <!-- Technical Events -->
+  <div id="technical-section" class="events-section section-anchor">
+    <div class="section-heading">Technical Events</div>
+    <div class="event-tags">
+      <span class="event-tag">💡 AI Prompt Arena</span>
+      <span class="event-tag">📄 Paper Presentation</span>
+      <span class="event-tag">🌐 Web Design Clash</span>
+      <span class="event-tag">⚙️ Code Relay</span>
+    </div>
+  </div>
+
+  <!-- Non-Technical Events -->
+  <div id="nontechnical-section" class="events-section section-anchor">
+    <div class="section-heading">Non Technical Events</div>
+    <div class="event-tags">
+      <span class="event-tag">🏏 IPL Auction</span>
+      <span class="event-tag">📸 Creative Reels &amp; Photo Challenge</span>
+      <span class="event-tag">🧠 Brain Blitz Quiz</span>
+      <span class="event-tag">🔗 MindLink Challenge</span>
+    </div>
+  </div>
+
+  <!-- ===== REGISTRATION FORM CARD ===== -->
+  <div class="form-card">
+
+    <div class="form-card-header">
+      <div class="form-title">REGISTRATION FORM</div>
+      <div class="form-subtitle">Fill in your details to register for INTELLEXA '26</div>
+    </div>
+
+    <div class="form-body-wrap">
+      <form id="regForm" novalidate>
+
+        <!-- ===== BAND 1 : PERSONAL INFORMATION ===== -->
+        <div class="section-band band-1">
+          <div class="section-label">Personal Information</div>
+
+          <!-- Row 1 : Full Name | Year of Study -->
+          <div class="form-grid">
+
+            <div class="form-group" id="grp-name">
+              <label class="form-label" for="fullName">Full Name <span class="req">*</span></label>
+              <input class="form-input" type="text" id="fullName"
+                     placeholder="Enter your full name" autocomplete="off" />
+              <span class="error-msg">Full name is required.</span>
+            </div>
+
+            <div class="form-group" id="grp-year">
+              <label class="form-label" for="yearOfStudy">Year of Study <span class="req">*</span></label>
+              <input class="form-input" type="text" id="yearOfStudy"
+                     placeholder="e.g. I Year / II Year / III Year / IV Year" autocomplete="off" />
+              <span class="error-msg">Year of study is required.</span>
+            </div>
+
+          </div><!-- /Row 1 -->
+
+          <!-- Row 2 : Degree | Department -->
+          <div class="form-grid">
+
+            <div class="form-group" id="grp-degree">
+              <label class="form-label" for="degree">Degree <span class="req">*</span></label>
+              <input class="form-input" type="text" id="degree"
+                     placeholder="e.g. B.E. / B.Tech " autocomplete="off" />
+              <span class="error-msg">Degree is required.</span>
+            </div>
+
+            <div class="form-group" id="grp-dept">
+              <label class="form-label" for="department">Department <span class="req">*</span></label>
+              <input class="form-input" type="text" id="department"
+                     placeholder="e.g. Computer Science and Engineering" autocomplete="off" />
+              <span class="error-msg">Department is required.</span>
+            </div>
+
+          </div><!-- /Row 2 -->
+
+          <!-- Row 3 : College Name | College Location -->
+          <div class="form-grid">
+
+            <div class="form-group" id="grp-college">
+              <label class="form-label" for="collegeName">College Name <span class="req">*</span></label>
+              <input class="form-input" type="text" id="collegeName"
+                     placeholder="Enter your college name" autocomplete="off" />
+              <span class="error-msg">College name is required.</span>
+            </div>
+
+            <div class="form-group" id="grp-clocation">
+              <label class="form-label" for="collegeLocation">College Location <span class="req">*</span></label>
+              <input class="form-input" type="text" id="collegeLocation"
+                     placeholder="City " autocomplete="off" />
+              <span class="error-msg">College location is required.</span>
+            </div>
+
+          </div><!-- /Row 3 -->
+
+          <!-- Row 4 : Email | Phone -->
+          <div class="form-grid">
+
+            <div class="form-group" id="grp-email">
+              <label class="form-label" for="emailId">Email ID <span class="req">*</span></label>
+              <input class="form-input" type="email" id="emailId"
+                     placeholder="you@example.com" autocomplete="off" />
+              <span class="error-msg">Enter a valid email address.</span>
+            </div>
+
+            <div class="form-group" id="grp-phone">
+              <label class="form-label" for="phoneNumber">Phone Number <span class="req">*</span></label>
+              <input class="form-input" type="tel" id="phoneNumber"
+                     placeholder="10-digit mobile number" maxlength="10" />
+              <span class="error-msg">Enter a valid 10-digit phone number.</span>
+            </div>
+
+          </div><!-- /Row 4 -->
+
+          <!-- Row 5 : Referral Code – centered -->
+          <div class="form-row-center">
+            <div class="form-group" id="grp-referral">
+              <label class="form-label" for="referralCode">Referral Code</label>
+              <input class="form-input" type="text" id="referralCode"
+                     placeholder="e.g. I Year CSE A  or  NIL" autocomplete="off" />
+            </div>
+          </div>
+
+        </div><!-- /band-1 -->
+
+        <!-- ===== BAND 2 : EVENT SELECTION ===== -->
+        <div class="section-band band-2">
+          <div class="section-label">Select Events</div>
+          <div id="grp-events">
+
+            <!-- Workshop -->
+            <div class="event-group-label">🛠️ Workshop</div>
+            <div class="checkbox-grid">
+              <label class="checkbox-card" id="card-nexa">
+                <input type="checkbox" id="evt-nexa" value="NEXA AI Workshop" data-group="workshop" />
+                <span>NEXA AI Workshop</span>
+              </label>
+            </div>
+
+            <!-- Technical -->
+            <div class="event-group-label">⚡ Technical Events</div>
+            <div class="checkbox-grid">
+              <label class="checkbox-card" id="card-ai-prompt">
+                <input type="checkbox" id="evt-ai-prompt" value="AI Prompt Arena" data-group="technical" />
+                <span>AI Prompt Arena</span>
+              </label>
+              <label class="checkbox-card" id="card-paper">
+                <input type="checkbox" id="evt-paper" value="Paper Presentation" data-group="technical" />
+                <span>Paper Presentation</span>
+              </label>
+              <label class="checkbox-card" id="card-web">
+                <input type="checkbox" id="evt-web" value="Web Design Clash" data-group="technical" />
+                <span>Web Design Clash</span>
+              </label>
+              <label class="checkbox-card" id="card-code">
+                <input type="checkbox" id="evt-code" value="Code Relay" data-group="technical" />
+                <span>Code Relay</span>
+              </label>
+            </div>
+
+            <!-- Non-Technical -->
+            <div class="event-group-label">🎉 Non-Technical Events</div>
+            <div class="checkbox-grid">
+              <label class="checkbox-card" id="card-ipl">
+                <input type="checkbox" id="evt-ipl" value="IPL Auction" data-group="nontechnical" />
+                <span>IPL Auction</span>
+              </label>
+              <label class="checkbox-card" id="card-reels">
+                <input type="checkbox" id="evt-reels"
+                       value="Creative Reels &amp; Photo Challenge" data-group="nontechnical" />
+                <span>Creative Reels &amp; Photo Challenge</span>
+              </label>
+              <label class="checkbox-card" id="card-quiz">
+                <input type="checkbox" id="evt-quiz" value="Brain Blitz Quiz" data-group="nontechnical" />
+                <span>Brain Blitz Quiz</span>
+              </label>
+              <label class="checkbox-card" id="card-mindlink">
+                <input type="checkbox" id="evt-mindlink" value="MindLink Challenge" data-group="nontechnical" />
+                <span>MindLink Challenge</span>
+              </label>
+            </div>
+
+            <div class="events-error" id="err-events">Please select at least one event.</div>
+
+            <!-- Paper Presentation section (dynamic) -->
+            <div id="paper-section">
+              <div class="paper-rule">
+                <strong>📋 Rule:</strong> All team members must register <strong>individually</strong>.
+                The team name and abstract must be <strong>identical for all members</strong>.
+              </div>
+              <div class="form-grid">
+                <div class="form-group" id="grp-teamname">
+                  <label class="form-label" for="teamName">Team Name <span class="req">*</span></label>
+                  <input class="form-input" type="text" id="teamName" placeholder="Enter team name" />
+                  <span class="error-msg">Team name is required.</span>
+                </div>
+                <div class="form-group" id="grp-membercount">
+                  <label class="form-label" for="memberCount">Number of Members <span class="req">*</span></label>
+                  <input class="form-input" type="number" id="memberCount"
+                         placeholder="e.g. 3" min="1" max="10" />
+                  <span class="error-msg">Please enter the number of members.</span>
+                </div>
+              </div>
+              <div id="member-names-container" style="margin-top:16px;"></div>
+              <div class="form-group" id="grp-abstract" style="margin-top:16px;">
+                <label class="form-label" for="paperAbstract">
+                  Paper Abstract <span class="req">*</span>
+                  <small style="font-size:11px;color:#8aabcc;text-transform:none;
+                                letter-spacing:0;font-weight:500;">(250–300 words)</small>
+                </label>
+                <textarea class="form-textarea" id="paperAbstract" rows="7"
+                  placeholder="Enter your paper abstract (250–300 words)..."></textarea>
+                <div class="word-counter" id="word-counter">0 / 300 words</div>
+                <span class="error-msg">Abstract must be between 250 and 300 words.</span>
+              </div>
+            </div><!-- /paper-section -->
+
+          </div><!-- /grp-events -->
+        </div><!-- /band-2 -->
+
+        <!-- ===== BAND 3 : PAYMENT DETAILS ===== -->
+        <div class="section-band band-3">
+          <div class="section-label">Payment Details</div>
+          <div class="form-grid">
+
+            <div class="form-group" id="grp-txnid">
+              <label class="form-label" for="transactionId">Transaction ID <span class="req">*</span></label>
+              <input class="form-input" type="text" id="transactionId"
+                     placeholder="Enter UPI / transaction ID" />
+              <span class="error-msg">Transaction ID is required.</span>
+            </div>
+
+            <div class="form-group form-full" id="grp-screenshot">
+              <label class="form-label" for="txnScreenshot">Transaction Screenshot <span class="req">*</span></label>
+              <div class="file-upload-area" id="upload-area">
+                <input type="file" id="txnScreenshot" accept="image/*" />
+                <div class="upload-text">📂 Click or drag &amp; drop image here</div>
+                <div class="upload-hint">Supports: JPG, PNG, WEBP — Max 5 MB</div>
+              </div>
+              <div class="file-preview" id="file-preview">
+                <img id="preview-img" src="" alt="Transaction screenshot preview" />
+                <div class="file-name" id="file-name-display"></div>
+              </div>
+              <span class="error-msg">Transaction screenshot is required.</span>
+            </div>
+
+          </div><!-- /form-grid -->
+
+          <button type="submit" class="submit-btn" id="submitBtn">Register Now →</button>
+        </div><!-- /band-3 -->
+
+      </form>
+
+      <!-- Success Message -->
+      <div id="success-message">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Registration Successful!</div>
+        <div class="success-text">
+          Thank you for registering for <strong>INTELLEXA '26</strong>.<br>
+          Your details have been saved. You will receive a confirmation shortly.
+        </div>
+      </div>
+
+    </div><!-- /form-body-wrap -->
+  </div><!-- /form-card -->
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <div class="footer-text">
+    <span class="footer-brand">© 2026 <span class="brand-highlight">INTELLEXA '26</span></span><br>
+    Department of Computer Science and Engineering<br>
+    Ramco Institute of Technology, Rajapalayam
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
