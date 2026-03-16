@@ -1,1 +1,1 @@
-"# Intellexa2026" 
+"# Intellexa" 
