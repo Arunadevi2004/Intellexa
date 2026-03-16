@@ -10,12 +10,39 @@ const allCheckboxes = document.querySelectorAll('.checkbox-card input[type="chec
 const evtNexa       = document.getElementById('evt-nexa');
 const evtPaper      = document.getElementById('evt-paper');
 
-/* ── Pill radio highlight on click ── */
+/* ── Pill radio highlight on click (OBSOLETE but keeping for safety if any) ── */
 document.querySelectorAll('.pill input[type="radio"]').forEach(radio => {
   radio.addEventListener('change', function () {
     const grp = this.closest('.form-group');
     if (grp) grp.classList.remove('has-error');
   });
+});
+
+/* ── "Other" dropdown handlers ── */
+document.getElementById('degree').addEventListener('change', function() {
+  const otherInput = document.getElementById('otherDegree');
+  if (this.value === 'Other') {
+    otherInput.style.display = 'block';
+    otherInput.required = true;
+  } else {
+    otherInput.style.display = 'none';
+    otherInput.required = false;
+    otherInput.value = '';
+    setError('grp-degree', false);
+  }
+});
+
+document.getElementById('department').addEventListener('change', function() {
+  const otherInput = document.getElementById('otherDept');
+  if (this.value === 'OTHERS') {
+    otherInput.style.display = 'block';
+    otherInput.required = true;
+  } else {
+    otherInput.style.display = 'none';
+    otherInput.required = false;
+    otherInput.value = '';
+    setError('grp-dept', false);
+  }
 });
 
 /* ── Checkbox card styling ── */
@@ -48,15 +75,37 @@ function handleEventChange(cb) {
   if (nexaSelected) { cb.checked = false; return; }
 
   if (group === 'technical' && isChecked) {
-    if ([...document.querySelectorAll('[data-group="technical"]:checked')].length > 1) {
-      cb.checked = false; showEventsAlert('Maximum 1 Technical Event allowed.'); updateCardStyle(cb); return;
+    const selectedTech = [...document.querySelectorAll('[data-group="technical"]:checked')];
+    if (selectedTech.length >= 1) {
+      allCheckboxes.forEach(c => {
+        if (c.dataset.group === 'technical' && !c.checked) {
+          c.closest('.checkbox-card').classList.add('disabled');
+        }
+      });
     }
+  } else if (group === 'technical' && !isChecked) {
+    allCheckboxes.forEach(c => {
+      if (c.dataset.group === 'technical') {
+        c.closest('.checkbox-card').classList.remove('disabled');
+      }
+    });
   }
 
   if (group === 'nontechnical' && isChecked) {
-    if ([...document.querySelectorAll('[data-group="nontechnical"]:checked')].length > 2) {
-      cb.checked = false; showEventsAlert('Maximum 2 Non-Technical Events allowed.'); updateCardStyle(cb); return;
+    const selectedNonTech = [...document.querySelectorAll('[data-group="nontechnical"]:checked')];
+    if (selectedNonTech.length >= 2) {
+      allCheckboxes.forEach(c => {
+        if (c.dataset.group === 'nontechnical' && !c.checked) {
+          c.closest('.checkbox-card').classList.add('disabled');
+        }
+      });
     }
+  } else if (group === 'nontechnical' && !isChecked) {
+    allCheckboxes.forEach(c => {
+      if (c.dataset.group === 'nontechnical') {
+        c.closest('.checkbox-card').classList.remove('disabled');
+      }
+    });
   }
 
   updateCardStyle(cb); handlePaperSection();
@@ -159,11 +208,17 @@ function validateForm() {
   if (!document.getElementById('yearOfStudy').value.trim())
     { setError('grp-year',true); ok=false; } else setError('grp-year',false);
 
-  if (!document.getElementById('degree').value.trim())
-    { setError('grp-degree',true); ok=false; } else setError('grp-degree',false);
+  if (!document.getElementById('degree').value)
+    { setError('grp-degree',true); ok=false; }
+  else if (document.getElementById('degree').value === 'Other' && !document.getElementById('otherDegree').value.trim())
+    { setError('grp-degree',true, 'Please specify your degree'); ok=false; }
+  else setError('grp-degree',false);
 
-  if (!document.getElementById('department').value.trim())
-    { setError('grp-dept',true); ok=false; } else setError('grp-dept',false);
+  if (!document.getElementById('department').value)
+    { setError('grp-dept',true); ok=false; }
+  else if (document.getElementById('department').value === 'OTHERS' && !document.getElementById('otherDept').value.trim())
+    { setError('grp-dept',true, 'Please specify your department'); ok=false; }
+  else setError('grp-dept',false);
 
   if (!document.getElementById('collegeName').value.trim())
     { setError('grp-college',true); ok=false; } else setError('grp-college',false);
@@ -229,13 +284,13 @@ document.getElementById('regForm').addEventListener('submit', async function (e)
   const fd = new FormData();
   fd.append('full_name',        document.getElementById('fullName').value.trim());
   fd.append('year_of_study',    document.getElementById('yearOfStudy').value.trim());
-  fd.append('degree',           document.getElementById('degree').value.trim());
-  fd.append('department',       document.getElementById('department').value.trim());
+  fd.append('degree',           document.getElementById('degree').value === 'Other' ? document.getElementById('otherDegree').value.trim() : document.getElementById('degree').value);
+  fd.append('department',       document.getElementById('department').value === 'OTHERS' ? document.getElementById('otherDept').value.trim() : document.getElementById('department').value);
   fd.append('college_name',     document.getElementById('collegeName').value.trim());
   fd.append('college_location', document.getElementById('collegeLocation').value.trim());
   fd.append('email',            document.getElementById('emailId').value.trim());
   fd.append('phone',            document.getElementById('phoneNumber').value.trim());
-  fd.append('referral_code',    document.getElementById('referralCode').value.trim());
+  fd.append('referral_code',    document.getElementById('referralCode').value);
   fd.append('transaction_id',   document.getElementById('transactionId').value.trim());
   fd.append('screenshot',       document.getElementById('txnScreenshot').files[0]);
   fd.append('events',           JSON.stringify([...allCheckboxes].filter(c=>c.checked).map(c=>c.value)));

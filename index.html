@@ -36,6 +36,7 @@
   <div class="event-banner">
     <div class="event-title">INTELLEXA '26</div>
     <div class="event-subtitle">National Level Technical Symposium</div>
+    <div class="event-subtitle" style="letter-spacing: 2px; color: var(--gold-bright); margin-top: 5px;">APRIL 2 2026</div>
     <div class="event-fee-badge">Registration Fee: ₹200</div>
   </div>
 </header>
@@ -109,8 +110,13 @@
 
             <div class="form-group" id="grp-year">
               <label class="form-label" for="yearOfStudy">Year of Study <span class="req">*</span></label>
-              <input class="form-input" type="text" id="yearOfStudy"
-                     placeholder="e.g. I Year / II Year / III Year / IV Year" autocomplete="off" />
+              <select class="form-input" id="yearOfStudy">
+                <option value="" disabled selected>Select Year</option>
+                <option value="I Year">I Year</option>
+                <option value="II Year">II Year</option>
+                <option value="III Year">III Year</option>
+                <option value="IV Year">IV Year</option>
+              </select>
               <span class="error-msg">Year of study is required.</span>
             </div>
 
@@ -121,15 +127,31 @@
 
             <div class="form-group" id="grp-degree">
               <label class="form-label" for="degree">Degree <span class="req">*</span></label>
-              <input class="form-input" type="text" id="degree"
-                     placeholder="e.g. B.E. / B.Tech " autocomplete="off" />
+              <select class="form-input" id="degree">
+                <option value="" disabled selected>Select Degree</option>
+                <option value="BE/B.Tech">BE/B.Tech</option>
+                <option value="Other">Other</option>
+              </select>
+              <input class="form-input" type="text" id="otherDegree" placeholder="Type your degree" style="display:none; margin-top: 10px;" />
               <span class="error-msg">Degree is required.</span>
             </div>
 
             <div class="form-group" id="grp-dept">
               <label class="form-label" for="department">Department <span class="req">*</span></label>
-              <input class="form-input" type="text" id="department"
-                     placeholder="e.g. Computer Science and Engineering" autocomplete="off" />
+              <select class="form-input" id="department">
+                <option value="" disabled selected>Select Department</option>
+                <option value="CSE">CSE</option>
+                <option value="IT">IT</option>
+                <option value="AIDS">AIDS</option>
+                <option value="CSBS">CSBS</option>
+                <option value="CSE(AIML)">CSE(AIML)</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MECH">MECH</option>
+                <option value="OTHERS">OTHERS</option>
+              </select>
+              <input class="form-input" type="text" id="otherDept" placeholder="Type your department" style="display:none; margin-top: 10px;" />
               <span class="error-msg">Department is required.</span>
             </div>
 
@@ -177,8 +199,19 @@
           <div class="form-row-center">
             <div class="form-group" id="grp-referral">
               <label class="form-label" for="referralCode">Referral Code</label>
-              <input class="form-input" type="text" id="referralCode"
-                     placeholder="e.g. I Year CSE A  or  NIL" autocomplete="off" />
+              <select class="form-input" id="referralCode">
+                <option value="NIL" selected>NIL</option>
+                <option value="I Year CSE A">I Year CSE A</option>
+                <option value="I Year CSE B">I Year CSE B</option>
+                <option value="I Year CSE C">I Year CSE C</option>
+                <option value="II Year CSE A">II Year CSE A</option>
+                <option value="II Year CSE B">II Year CSE B</option>
+                <option value="II Year CSE C">II Year CSE C</option>
+                <option value="III YEAR CSE A">III YEAR CSE A</option>
+                <option value="III YEAR CSE B">III YEAR CSE B</option>
+                <option value="IV Year CSE A">IV Year CSE A</option>
+                <option value="IV Year CSE B">IV Year CSE B</option>
+              </select>
             </div>
           </div>
 
@@ -218,33 +251,10 @@
                 <span>Code Relay</span>
               </label>
             </div>
-
-            <!-- Non-Technical -->
-            <div class="event-group-label">🎉 Non-Technical Events</div>
-            <div class="checkbox-grid">
-              <label class="checkbox-card" id="card-ipl">
-                <input type="checkbox" id="evt-ipl" value="IPL Auction" data-group="nontechnical" />
-                <span>IPL Auction</span>
-              </label>
-              <label class="checkbox-card" id="card-reels">
-                <input type="checkbox" id="evt-reels"
-                       value="Creative Reels &amp; Photo Challenge" data-group="nontechnical" />
-                <span>Creative Reels &amp; Photo Challenge</span>
-              </label>
-              <label class="checkbox-card" id="card-quiz">
-                <input type="checkbox" id="evt-quiz" value="Brain Blitz Quiz" data-group="nontechnical" />
-                <span>Brain Blitz Quiz</span>
-              </label>
-              <label class="checkbox-card" id="card-mindlink">
-                <input type="checkbox" id="evt-mindlink" value="MindLink Challenge" data-group="nontechnical" />
-                <span>MindLink Challenge</span>
-              </label>
-            </div>
-
             <div class="events-error" id="err-events">Please select at least one event.</div>
 
-            <!-- Paper Presentation section (dynamic) -->
-            <div id="paper-section">
+            <!-- Paper Presentation section (dynamicly positioned) -->
+            <div id="paper-section" style="margin-top: 10px; margin-bottom: 20px;">
               <div class="paper-rule">
                 <strong>📋 Rule:</strong> All team members must register <strong>individually</strong>.
                 The team name and abstract must be <strong>identical for all members</strong>.
@@ -275,6 +285,8 @@
                 <span class="error-msg">Abstract must be between 250 and 300 words.</span>
               </div>
             </div><!-- /paper-section -->
+
+            <!-- Non-Technical -->
 
           </div><!-- /grp-events -->
         </div><!-- /band-2 -->
