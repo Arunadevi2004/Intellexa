@@ -111,13 +111,13 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     // --- Cloudinary Upload ---
     if (req.file) {
       try {
-        // Sanitize name for filename (remove special chars and spaces)
-        const safeName = full_name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        // Sanitize name for filename (fallback to 'participant' if missing)
+        const namePart = full_name ? full_name.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'participant';
         const timestamp = Date.now();
         
         const result = await cloudinary.uploader.upload(req.file.path, {
           folder: 'intellexa_registrations',
-          public_id: `${safeName}_${timestamp}`,
+          public_id: `${namePart}_${timestamp}`,
           resource_type: 'auto'
         });
         
@@ -125,12 +125,13 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
         registrationData.screenshotPath = result.secure_url;
         
         // Delete local temporary file
-        fs.unlinkSync(req.file.path);
+        if (fs.existsSync(req.file.path)) {
+          fs.unlinkSync(req.file.path);
+        }
       } catch (uploadError) {
         console.error('CLOUDINARY UPLOAD ERROR:', uploadError);
         // Fallback: On Render, this local file will be lost eventually, 
         // but we keep the local path for now to satisfy the DB 'required' constraint.
-        // The real fix is ensuring Cloudinary is configured on Render.
       }
     }
 
@@ -159,8 +160,8 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     });
 
   } catch (error) {
-    if (req.file) {
-      fs.unlinkSync(req.file.path); // Delete uploaded file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      try { fs.unlinkSync(req.file.path); } catch (e) {} // Safe delete
     }
     
     if (error.code === 11000) {
