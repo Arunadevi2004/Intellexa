@@ -92,6 +92,17 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     const isPaper = is_paper === '1';
 
     const registrationData = {
+      fullName: full_name,
+      yearOfStudy: year_of_study,
+      degree,
+      department,
+      collegeName: college_name,
+      collegeLocation: college_location,
+      email,
+      phone,
+      referralCode: referral_code || null,
+      transactionId: transaction_id,
+      events: parsedEvents,
       isPaper,
       ipAddress: req.ip,
       screenshotPath: req.file ? `uploads/${req.file.filename}` : null // Initial local fallback
