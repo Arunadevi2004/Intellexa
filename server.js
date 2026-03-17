@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const Registration = require('./models/Registration');
 const Participant = require('./models/Participant');
+const Counter = require('./models/Counter');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -78,6 +79,16 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+// Helper for sequential ID
+async function getNextSequenceValue(sequenceName) {
+  const sequenceDocument = await Counter.findOneAndUpdate(
+    { id: sequenceName },
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  );
+  return sequenceDocument.seq;
+}
+
 // Routes
 app.post('/api/register', upload.single('screenshot'), async (req, res) => {
   try {
@@ -85,13 +96,18 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
       full_name, year_of_study, degree, department,
       college_name, college_location, email, phone,
       referral_code, transaction_id, events, is_paper,
-      team_name, member_count, member_names, abstract_title, abstract
+      team_name, member_count, member_names, paper_title, abstract
     } = req.body;
 
     const parsedEvents = JSON.parse(events || '[]');
     const isPaper = is_paper === '1';
 
+    // Generate readable sequential ID
+    const seq = await getNextSequenceValue('registration_id');
+    const registrationIdReadable = `INT26-${String(seq).padStart(4, '0')}`;
+
     const registrationData = {
+      registrationId: registrationIdReadable,
       fullName: full_name,
       yearOfStudy: year_of_study,
       degree,
@@ -141,7 +157,7 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
         teamName: team_name,
         memberCount: parseInt(member_count),
         memberNames: parsedMemberNames,
-        abstractTitle: abstract_title,
+        paperTitle: paper_title,
         abstractText: abstract,
         wordCount: abstract.trim().split(/\s+/).length
       };
@@ -154,7 +170,7 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
       success: true,
       message: 'Registration successful!',
       data: {
-        registration_id: registration._id,
+        registration_id: registration.registrationId,
         name: registration.fullName,
         email: registration.email
       }
@@ -250,6 +266,7 @@ app.patch('/api/admin/registrations/:id/status', async (req, res) => {
       try {
         const participantData = {
           registrationId: registration._id,
+          registrationIdReadable: registration.registrationId,
           fullName: registration.fullName,
           email: registration.email,
           phone: registration.phone,
@@ -260,7 +277,7 @@ app.patch('/api/admin/registrations/:id/status', async (req, res) => {
           isPaper: registration.isPaper,
           teamName: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.teamName : null,
           memberNames: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.memberNames : [],
-          abstractTitle: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.abstractTitle : null,
+          paperTitle: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.paperTitle : null,
           confirmedAt: new Date()
         };
 

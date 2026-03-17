@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const ParticipantSchema = new mongoose.Schema({
   registrationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Registration', required: true, unique: true },
+  registrationIdReadable: String,
   fullName: String,
   email: String,
   phone: String,
@@ -12,7 +13,7 @@ const ParticipantSchema = new mongoose.Schema({
   isPaper: Boolean,
   teamName: String,
   memberNames: [String],
-  abstractTitle: String,
+  paperTitle: String,
   confirmedAt: { type: Date, default: Date.now }
 });
 

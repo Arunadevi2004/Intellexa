@@ -4,12 +4,13 @@ const PaperSubmissionSchema = new mongoose.Schema({
   teamName: String,
   memberCount: Number,
   memberNames: [String],
-  abstractTitle: String,
+  paperTitle: String,
   abstractText: String,
   wordCount: Number
 }, { _id: false });
 
 const RegistrationSchema = new mongoose.Schema({
+  registrationId: { type: String, unique: true },
   fullName: { type: String, required: true },
   yearOfStudy: { type: String, required: true },
   degree: { type: String, required: true },

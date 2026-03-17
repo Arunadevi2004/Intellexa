@@ -307,7 +307,7 @@ document.getElementById('regForm').addEventListener('submit', async function (e)
     fd.append('team_name',    document.getElementById('teamName').value.trim());
     fd.append('member_count', mc);
     fd.append('member_names', JSON.stringify(names));
-    fd.append('abstract_title', document.getElementById('paperTitle').value.trim());
+    fd.append('paper_title', document.getElementById('paperTitle').value.trim());
     fd.append('abstract',     document.getElementById('paperAbstract').value.trim());
   }
 
