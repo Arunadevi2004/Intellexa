@@ -12,6 +12,7 @@ const ParticipantSchema = new mongoose.Schema({
   isPaper: Boolean,
   teamName: String,
   memberNames: [String],
+  abstractTitle: String,
   confirmedAt: { type: Date, default: Date.now }
 });
 

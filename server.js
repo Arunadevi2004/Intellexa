@@ -85,7 +85,7 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
       full_name, year_of_study, degree, department,
       college_name, college_location, email, phone,
       referral_code, transaction_id, events, is_paper,
-      team_name, member_count, member_names, abstract
+      team_name, member_count, member_names, abstract_title, abstract
     } = req.body;
 
     const parsedEvents = JSON.parse(events || '[]');
@@ -141,6 +141,7 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
         teamName: team_name,
         memberCount: parseInt(member_count),
         memberNames: parsedMemberNames,
+        abstractTitle: abstract_title,
         abstractText: abstract,
         wordCount: abstract.trim().split(/\s+/).length
       };
@@ -259,6 +260,7 @@ app.patch('/api/admin/registrations/:id/status', async (req, res) => {
           isPaper: registration.isPaper,
           teamName: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.teamName : null,
           memberNames: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.memberNames : [],
+          abstractTitle: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.abstractTitle : null,
           confirmedAt: new Date()
         };
 

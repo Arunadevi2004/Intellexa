@@ -37,7 +37,10 @@
     <div class="event-title">INTELLEXA '26</div>
     <div class="event-subtitle">National Level Technical Symposium</div>
     <div class="event-subtitle" style="letter-spacing: 2px; color: var(--gold-bright); margin-top: 5px;">APRIL 2 2026</div>
-    <div class="event-fee-badge">Registration Fee: ₹200</div>
+    <div class="event-fee-badge">
+      Registration Fee<br>
+      <span style="font-size: 0.8em; opacity: 0.9;">Internal: ₹100 | External: ₹200</span>
+    </div>
   </div>
 </header>
 
@@ -144,7 +147,8 @@
                 <option value="IT">IT</option>
                 <option value="AIDS">AIDS</option>
                 <option value="CSBS">CSBS</option>
-                <option value="CSE(AIML)">CSE(AIML)</option>
+                <option value="AIML">AIML</option>
+                <option value="Cybersecurity">Cybersecurity</option>
                 <option value="ECE">ECE</option>
                 <option value="EEE">EEE</option>
                 <option value="CIVIL">CIVIL</option>
@@ -195,25 +199,7 @@
 
           </div><!-- /Row 4 -->
 
-          <!-- Row 5 : Referral Code – centered -->
-          <div class="form-row-center">
-            <div class="form-group" id="grp-referral">
-              <label class="form-label" for="referralCode">Referral Code</label>
-              <select class="form-input" id="referralCode">
-                <option value="NIL" selected>NIL</option>
-                <option value="I Year CSE A">I Year CSE A</option>
-                <option value="I Year CSE B">I Year CSE B</option>
-                <option value="I Year CSE C">I Year CSE C</option>
-                <option value="II Year CSE A">II Year CSE A</option>
-                <option value="II Year CSE B">II Year CSE B</option>
-                <option value="II Year CSE C">II Year CSE C</option>
-                <option value="III YEAR CSE A">III YEAR CSE A</option>
-                <option value="III YEAR CSE B">III YEAR CSE B</option>
-                <option value="IV Year CSE A">IV Year CSE A</option>
-                <option value="IV Year CSE B">IV Year CSE B</option>
-              </select>
-            </div>
-          </div>
+
 
         </div><!-- /band-1 -->
 
@@ -256,8 +242,13 @@
             <!-- Paper Presentation section (dynamicly positioned) -->
             <div id="paper-section" style="margin-top: 10px; margin-bottom: 20px;">
               <div class="paper-rule">
-                <strong>📋 Rule:</strong> All team members must register <strong>individually</strong>.
-                The team name and abstract must be <strong>identical for all members</strong>.
+                <strong>📋 Rules:</strong>
+                <ul>
+                  <li>Each team should comprise of a max of 3 participants and min of 1 participant.</li>
+                  <li>Timings: 5 min will be permitted for the presentation and 2 min for Q/A session.</li>
+                  <li>All team members must register <strong>individually</strong>.</li>
+                  <li>The team name and abstract must be <strong>identical for all members</strong>.</li>
+                </ul>
               </div>
               <div class="form-grid">
                 <div class="form-group" id="grp-teamname">
@@ -273,16 +264,21 @@
                 </div>
               </div>
               <div id="member-names-container" style="margin-top:16px;"></div>
+              <div class="form-group" id="grp-abstract-title" style="margin-top:16px;">
+                <label class="form-label" for="paperTitle">Abstract Title <span class="req">*</span></label>
+                <input class="form-input" type="text" id="paperTitle" placeholder="Enter your paper title" />
+                <span class="error-msg">Abstract title is required.</span>
+              </div>
               <div class="form-group" id="grp-abstract" style="margin-top:16px;">
                 <label class="form-label" for="paperAbstract">
                   Paper Abstract <span class="req">*</span>
                   <small style="font-size:11px;color:#8aabcc;text-transform:none;
-                                letter-spacing:0;font-weight:500;">(250–300 words)</small>
+                                letter-spacing:0;font-weight:500;">(200–250 words)</small>
                 </label>
                 <textarea class="form-textarea" id="paperAbstract" rows="7"
-                  placeholder="Enter your paper abstract (250–300 words)..."></textarea>
-                <div class="word-counter" id="word-counter">0 / 300 words</div>
-                <span class="error-msg">Abstract must be between 250 and 300 words.</span>
+                  placeholder="Enter your paper abstract (200–250 words)..."></textarea>
+                <div class="word-counter" id="word-counter">0 / 250 words</div>
+                <span class="error-msg">Abstract must be between 200 and 250 words.</span>
               </div>
             </div><!-- /paper-section -->
 
@@ -328,7 +324,7 @@
               <div class="file-upload-area" id="upload-area">
                 <input type="file" id="txnScreenshot" accept="image/*" />
                 <div class="upload-text">📂 Click or drag &amp; drop image here</div>
-                <div class="upload-hint">Supports: JPG, PNG, WEBP — Max 5 MB</div>
+                <div class="upload-hint">Supports: JPG, PNG, WEBP — Max 1 MB</div>
               </div>
               <div class="file-preview" id="file-preview">
                 <img id="preview-img" src="" alt="Transaction screenshot preview" />

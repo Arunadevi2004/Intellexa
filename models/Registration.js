@@ -4,6 +4,7 @@ const PaperSubmissionSchema = new mongoose.Schema({
   teamName: String,
   memberCount: Number,
   memberNames: [String],
+  abstractTitle: String,
   abstractText: String,
   wordCount: Number
 }, { _id: false });

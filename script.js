@@ -128,9 +128,10 @@ function clearPaperSection() {
   document.getElementById('teamName').value = '';
   document.getElementById('memberCount').value = '';
   document.getElementById('member-names-container').innerHTML = '';
+  document.getElementById('paperTitle').value = '';
   document.getElementById('paperAbstract').value = '';
   const ctr = document.getElementById('word-counter');
-  ctr.textContent = '0 / 300 words'; ctr.classList.remove('valid','error');
+  ctr.textContent = '0 / 250 words'; ctr.classList.remove('valid','error');
 }
 
 /* ── Dynamic member inputs ── */
@@ -158,9 +159,9 @@ document.getElementById('memberCount').addEventListener('input', function () {
 document.getElementById('paperAbstract').addEventListener('input', function () {
   const words = countWords(this.value);
   const ctr = document.getElementById('word-counter');
-  ctr.textContent = `${words} / 300 words`;
+  ctr.textContent = `${words} / 250 words`;
   ctr.classList.remove('valid','error');
-  if (words >= 250 && words <= 300) ctr.classList.add('valid');
+  if (words >= 200 && words <= 250) ctr.classList.add('valid');
   else if (words > 0) ctr.classList.add('error');
 });
 
@@ -253,9 +254,12 @@ function validateForm() {
         else if (inp) setError(`grp-member-${i}`,false);
       }
     }
+    if (!document.getElementById('paperTitle').value.trim())
+      { setError('grp-abstract-title',true); ok=false; } else setError('grp-abstract-title',false);
+
     const wc = countWords(document.getElementById('paperAbstract').value);
-    if (wc < 250 || wc > 300) {
-      setError('grp-abstract',true,`Abstract must be 250–300 words. Current: ${wc}.`); ok=false;
+    if (wc < 200 || wc > 250) {
+      setError('grp-abstract',true,`Abstract must be 200–250 words. Current: ${wc}.`); ok=false;
     } else setError('grp-abstract',false);
   }
 
@@ -290,7 +294,6 @@ document.getElementById('regForm').addEventListener('submit', async function (e)
   fd.append('college_location', document.getElementById('collegeLocation').value.trim());
   fd.append('email',            document.getElementById('emailId').value.trim());
   fd.append('phone',            document.getElementById('phoneNumber').value.trim());
-  fd.append('referral_code',    document.getElementById('referralCode').value);
   fd.append('transaction_id',   document.getElementById('transactionId').value.trim());
   fd.append('screenshot',       document.getElementById('txnScreenshot').files[0]);
   fd.append('events',           JSON.stringify([...allCheckboxes].filter(c=>c.checked).map(c=>c.value)));
@@ -304,6 +307,7 @@ document.getElementById('regForm').addEventListener('submit', async function (e)
     fd.append('team_name',    document.getElementById('teamName').value.trim());
     fd.append('member_count', mc);
     fd.append('member_names', JSON.stringify(names));
+    fd.append('abstract_title', document.getElementById('paperTitle').value.trim());
     fd.append('abstract',     document.getElementById('paperAbstract').value.trim());
   }
 
