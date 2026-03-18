@@ -153,34 +153,8 @@ function clearPaperSection() {
 }
 
 /* ── Dynamic member inputs ── */
-document.getElementById('memberCount').addEventListener('input', function () {
-  const count = parseInt(this.value);
-  const container = document.getElementById('member-names-container');
-  container.innerHTML = '';
-  
-  if (count > 2) {
-    setError('grp-membercount', true, 'Maximum 2 members allowed for Paper Presentation.');
-    return;
-  } else if (count >= 1 && count <= 2) {
-    setError('grp-membercount', false);
-  }
+// Moved to end of file to avoid conflict with live error clearing
 
-  if (!count || count < 1 || count > 2) return;
-
-
-  const grid = document.createElement('div'); grid.className = 'form-grid';
-  for (let i = 1; i <= count; i++) {
-    const grp = document.createElement('div');
-    grp.className = 'form-group'; grp.id = `grp-member-${i}`;
-    grp.innerHTML = `
-      <label class="form-label" for="member-${i}">Member ${i} Name <span class="req">*</span></label>
-      <input class="form-input" type="text" id="member-${i}" placeholder="Enter member ${i} full name" />
-      <span class="error-msg">Member ${i} name is required.</span>`;
-    grid.appendChild(grp);
-  }
-  container.appendChild(grid);
-  attachLiveClear(container.querySelectorAll('.form-input'));
-});
 
 /* ── Word counter ── */
 document.getElementById('paperAbstract').addEventListener('input', function () {
@@ -398,3 +372,32 @@ function attachLiveClear(elements) {
 }
 function clearGrpErr() { const g = this.closest('.form-group'); if (g) g.classList.remove('has-error'); }
 attachLiveClear(document.querySelectorAll('.form-input, .form-textarea'));
+
+/* ── Paper Member Count (Moved here to run after attachLiveClear) ── */
+document.getElementById('memberCount').addEventListener('input', function () {
+  const count = parseInt(this.value);
+  const container = document.getElementById('member-names-container');
+  container.innerHTML = '';
+  
+  if (count > 2) {
+    setError('grp-membercount', true, 'Maximum 2 members allowed for Paper Presentation.');
+    return;
+  } else if (count >= 1 && count <= 2) {
+    setError('grp-membercount', false);
+  }
+
+  if (!count || count < 1 || count > 2) return;
+
+  const grid = document.createElement('div'); grid.className = 'form-grid';
+  for (let i = 1; i <= count; i++) {
+    const grp = document.createElement('div');
+    grp.className = 'form-group'; grp.id = `grp-member-${i}`;
+    grp.innerHTML = `
+      <label class="form-label" for="member-${i}">Member ${i} Name <span class="req">*</span></label>
+      <input class="form-input" type="text" id="member-${i}" placeholder="Enter member ${i} full name" />
+      <span class="error-msg">Member ${i} name is required.</span>`;
+    grid.appendChild(grp);
+  }
+  container.appendChild(grid);
+  attachLiveClear(container.querySelectorAll('.form-input'));
+});
