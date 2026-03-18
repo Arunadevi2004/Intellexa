@@ -9,6 +9,8 @@ let nexaSelected = false;
 const allCheckboxes = document.querySelectorAll('.checkbox-card input[type="checkbox"]');
 const evtNexa       = document.getElementById('evt-nexa');
 const evtPaper      = document.getElementById('evt-paper');
+const evtIpl        = document.getElementById('evt-ipl');
+
 
 /* ── Pill radio highlight on click (OBSOLETE but keeping for safety if any) ── */
 document.querySelectorAll('.pill input[type="radio"]').forEach(radio => {
@@ -108,8 +110,9 @@ function handleEventChange(cb) {
     });
   }
 
-  updateCardStyle(cb); handlePaperSection();
+  updateCardStyle(cb); handlePaperSection(); handleIplSection();
 }
+
 
 function showEventsAlert(msg) {
   const el = document.getElementById('err-events');
@@ -120,9 +123,24 @@ function showEventsAlert(msg) {
 /* ── Paper section toggle ── */
 function handlePaperSection() {
   const sec = document.getElementById('paper-section');
-  if (evtPaper.checked) { sec.style.display = 'block'; }
+  if (evtPaper && evtPaper.checked) { sec.style.display = 'block'; }
   else { sec.style.display = 'none'; clearPaperSection(); }
 }
+
+function handleIplSection() {
+  const sec = document.getElementById('ipl-section');
+  if (evtIpl && evtIpl.checked) { sec.style.display = 'block'; }
+  else { sec.style.display = 'none'; clearIplSection(); }
+}
+
+function clearIplSection() {
+  document.getElementById('iplTeamName').value = '';
+  for (let i = 1; i <= 4; i++) {
+    const inp = document.getElementById(`ipl-member-${i}`);
+    if (inp) inp.value = '';
+  }
+}
+
 
 function clearPaperSection() {
   document.getElementById('teamName').value = '';
@@ -266,6 +284,18 @@ function validateForm() {
     } else setError('grp-abstract',false);
   }
 
+  if (evtIpl && evtIpl.checked) {
+    if (!document.getElementById('iplTeamName').value.trim())
+      { setError('grp-ipl-teamname',true); ok=false; } else setError('grp-ipl-teamname',false);
+    
+    for (let i = 1; i <= 4; i++) {
+      const inp = document.getElementById(`ipl-member-${i}`);
+      if (inp && !inp.value.trim()) { setError(`grp-ipl-member-${i}`, true); ok = false; }
+      else if (inp) setError(`grp-ipl-member-${i}`, false);
+    }
+  }
+
+
   if (!document.getElementById('transactionId').value.trim())
     { setError('grp-txnid',true); ok=false; } else setError('grp-txnid',false);
 
@@ -313,6 +343,19 @@ document.getElementById('regForm').addEventListener('submit', async function (e)
     fd.append('paper_title', document.getElementById('paperTitle').value.trim());
     fd.append('abstract',     document.getElementById('paperAbstract').value.trim());
   }
+
+  const isIpl = evtIpl && evtIpl.checked;
+  fd.append('is_ipl', isIpl ? '1' : '0');
+  if (isIpl) {
+    const names = [];
+    for (let i = 1; i <= 4; i++) {
+        const inp = document.getElementById(`ipl-member-${i}`);
+        names.push(inp ? inp.value.trim() : '');
+    }
+    fd.append('ipl_team_name', document.getElementById('iplTeamName').value.trim());
+    fd.append('ipl_member_names', JSON.stringify(names));
+  }
+
 
   try {
     const res  = await fetch(API_URL, { method:'POST', body:fd });

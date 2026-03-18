@@ -11,7 +11,9 @@ const ParticipantSchema = new mongoose.Schema({
   yearOfStudy: String,
   events: [String],
   isPaper: Boolean,
+  isIpl: Boolean,
   teamName: String,
+
   memberNames: [String],
   paperTitle: String,
   confirmedAt: { type: Date, default: Date.now }

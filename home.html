@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTELLEXA '26 | National Level Symposium</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS CSS for animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="home.css">
+
+</head>
+
+<body>
+
+  <div id="cursor"></div>
+  <div id="particles-js"></div>
+
+  <nav id="navbar">
+    <a href="#home" class="logo">
+
+      <span class="text-intellexa">INTELLEXA</span> <span class="text-year">'26</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#registration">Registration</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <div class="glow-bg"></div>
+
+    <div class="hero-header">
+      <div class="college-info">
+        <div class="logo-college-row">
+          <img src="rit_logo.jpg" alt="RIT Logo">
+          <h2 class="college-name">RAMCO INSTITUTE OF TECHNOLOGY, RAJAPALAYAM</h2>
+        </div>
+        <p class="autonomous">(An Autonomous Institution)</p>
+      </div>
+
+      <div class="header-divider">
+        <span class="dot"></span>
+        <div class="line"></div>
+        <span class="dot"></span>
+      </div>
+
+      <div class="collab-capsule">
+        <div class="capsule-logo left">
+          <img src="csi.jpg" alt="CSI Logo">
+        </div>
+        <div class="capsule-content">
+          <p class="dept-name">Department of Computer Science and Engineering</p>
+          <p class="collab-with">in collaboration with</p>
+          <p class="chapter-info">RIT CSI and RIT IE(I) Student Chapter</p>
+        </div>
+        <div class="capsule-logo right">
+          <img src="ieilogo.png" alt="IEI Logo">
+        </div>
+      </div>
+    </div>
+
+    <h1 class="parallax">INTELLEXA '26</h1>
+    <p class="subtitle">A National Level Technical Symposium</p>
+
+    <div class="event-info-row">
+      <div class="info-item"><i class="far fa-calendar-alt"></i> April 2, 2026</div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown">
+      <div><span id="days">00</span><small>Days</small></div>
+      <div><span id="hours">00</span><small>Hours</small></div>
+      <div><span id="minutes">00</span><small>Min</small></div>
+      <div><span id="seconds">00</span><small>Sec</small></div>
+    </div>
+
+    <a href="https://intellexa-hhk2.onrender.com/" class="btn primary-btn">Register Now</a>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section">
+    <h2 class="section-title">About Symposium</h2>
+    <div class="container about-content">
+      <i class="fas fa-microchip about-icon"></i>
+      <p>INTELLEXA '26 is a premium tech fest driven by innovation, competition, and learning. Join the brightest minds
+        across the nation to explore future technologies, build spectacular projects, and participate in high-stakes
+        technical arenas.</p>
+    </div>
+
+    <div class="container"
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px;">
+      <div class="about-content">
+        <h3 style="color: var(--cyan); margin-bottom: 20px;"><i class="fas fa-university"></i> About College</h3>
+        <p style="font-size: 0.95rem; line-height: 1.6;">Ramco Institute of Technology (RIT), Rajapalayam, established
+          in 2013 by the Raja Charity Trust, is a premier engineering institution in South India. Accredited by NAAC and
+          NBA, RIT is committed to providing quality technical education and fostering innovation through its visionary
+          leadership and state-of-the-art infrastructure.</p>
+      </div>
+      <div class="about-content">
+        <h3 style="color: var(--cyan); margin-bottom: 20px;"><i class="fas fa-microchip"></i> About Department</h3>
+        <p style="font-size: 0.95rem; line-height: 1.6;">The Department of Computer Science and Engineering (CSE) at RIT
+          is a Centre of Excellence dedicated to producing socially responsible and employable engineers. With a focus
+          on cutting-edge technologies like AI, Machine Learning, and Cloud Computing, the department empowers students
+          with deep technical expertise and professional ethics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKSHOP SECTION -->
+  <section id="workshop" class="section">
+    <h2 class="section-title">Workshop</h2>
+    <div class="grid container" style="display: flex; justify-content: center;">
+      <a href="event-details.html?event=nexa-workshop" class="card event-card" style="max-width: 400px; width: 100%;"
+        data-tilt>
+        <i class="fas fa-network-wired"></i>
+        <h3>NEXA AI Workshop</h3>
+        <p>Learn AI Tools and Future Technologies</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EVENTS SECTION -->
+  <section id="events" class="section">
+    <h2 class="section-title">Technical Events</h2>
+    <div class="grid container">
+
+      <a href="event-details.html?event=paper-presentation" class="card event-card" data-tilt>
+        <i class="fas fa-file-alt"></i>
+        <h3>Paper Presentation</h3>
+        <p>Share knowledge through presentation</p>
+      </a>
+      <a href="event-details.html?event=web-design-clash" class="card event-card" data-tilt>
+        <i class="fas fa-paint-brush"></i>
+        <h3>Web Design Clash</h3>
+        <p>Design Creative Websites, Win Glory</p>
+      </a>
+      <a href="event-details.html?event=code-relay" class="card event-card" data-tilt>
+        <i class="fas fa-code"></i>
+        <h3>Code Relay</h3>
+        <p>Team Coding Race to Victory</p>
+      </a>
+      <a href="event-details.html?event=ai-prompt-arena" class="card event-card" data-tilt>
+        <i class="fas fa-robot"></i>
+        <h3>AI Prompt Arena</h3>
+        <p>Create Powerful Prompts, Dominate AI</p>
+      </a>
+    </div>
+
+    <h2 class="section-title mt-100">Non-Technical Events</h2>
+    <div class="grid container">
+      <a href="event-details.html?event=ipl-auction" class="card event-card" data-tilt>
+        <i class="fas fa-gavel"></i>
+        <h3>IPL Auction</h3>
+        <p>Build Your Dream Team Strategy</p>
+      </a>
+      <a href="event-details.html?event=creative-reels" class="card event-card" data-tilt>
+        <i class="fas fa-camera-retro"></i>
+        <h3>Creative Reels & Photo Challenge</h3>
+        <p>Theme based Reels and Photos</p>
+      </a>
+      <a href="event-details.html?event=brain-blitz" class="card event-card" data-tilt>
+        <i class="fas fa-brain"></i>
+        <h3>Brain Blitz Quiz</h3>
+        <p>Test Knowledge in a Rapid Quiz</p>
+      </a>
+      <a href="event-details.html?event=mindlink-challenge" class="card event-card" data-tilt>
+        <i class="fas fa-link"></i>
+        <h3>MindLink Challenge</h3>
+        <p>Connect Ideas and Solve Smartly</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- SCHEDULE SECTION -->
+  <section id="schedule" class="section">
+    <h2 class="section-title">Event Schedule</h2>
+    <div class="timeline container">
+      <div class="timeline-item">
+        <div class="time">09:30 AM</div>
+        <div class="desc">Inauguration</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">10:30 AM</div>
+        <div class="desc">Events Start</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">01:30 PM</div>
+        <div class="desc">Lunch</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">04:00 PM</div>
+        <div class="desc">Prize Distribution</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTRATIONS SECTION -->
+  <section id="registration" class="section">
+    <div class="container reg-box" data-tilt>
+      <h2 class="section-title" style="margin-bottom: 20px;">Registrations</h2>
+
+      <div class="fee-details" style="margin-bottom: 30px;">
+        <p class="fee-text">Internal Participants (RIT): <span class="highlight">₹100</span></p>
+        <p class="fee-text">External Participants: <span class="highlight">₹200</span></p>
+      </div>
+
+      <div class="rules-container"
+        style="text-align: left; background: rgba(0,0,0,0.4); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 30px;">
+        <h3 style="color: var(--cyan); margin-bottom: 15px; font-size: 1.4rem;">Rules and Regulations</h3>
+        <ul style="color: #cbd5e1; font-size: 1rem; line-height: 1.8; padding-left: 20px;">
+          <li style="margin-bottom: 10px;">Individual Registration: Each participant must pay the respective fee.</li>
+          <li style="margin-bottom: 10px;">Selection Limit: One Workshop/Technical event and up to 2 Non-Technical
+            events.</li>
+          <li style="margin-bottom: 10px;">Technical Events: Cash Prizes + Winning Certificates for Winners and Runners.
+          </li>
+          <li style="margin-bottom: 10px;">Non-Technical Events: Cash Prize + Winning Certificate for Winners; Winning
+            Certificate for Runners.</li>
+          <li style="margin-bottom: 10px;">Participation certificates will be provided to all attendees.</li>
+          <li>Bring your College ID card on the event day for verification.</li>
+        </ul>
+      </div>
+
+      <a href="#" class="btn primary-btn">Register Now</a>
+    </div>
+  </section>
+
+  <!-- CONTACT/FOOTER -->
+  <footer id="contact">
+    <div class="container footer-grid">
+      <div data-aos="fade-up" data-aos-delay="100">
+        <a href="#home" class="logo" style="display:inline-block; margin-bottom: 15px;">
+          <span class="text-intellexa">INTELLEXA</span> <span class="text-year">'26</span>
+        </a>
+        <p>A celebration of innovation.</p>
+        <p>Ramco Institute of Technology</p>
+      </div>
+      <div style="grid-column: 2;">
+        <h3 style="font-size: 1.2rem;">Faculty Co-ordinators</h3>
+        <p style="font-size: 0.9rem;">Mrs. K. Jeyakarthika, AP-II/CSE</p>
+        <p style="font-size: 0.9rem;">Ms. G. Sakthi Priya, AP/CSE</p>
+        <p style="font-size: 0.9rem;">Mrs. A. Sofia Thanga Mary, AP/CSE</p>
+        <p style="font-size: 0.9rem;">Mrs. S. Shunmuga Priya, AP/CSE</p>
+        <p style="font-size: 0.9rem;">Mrs. C. Krishnakala, AP/CSE</p>
+      </div>
+      <div></div>
+
+      <div style="grid-column: 4;">
+        <h3 style="font-size: 1.2rem;">Student Co-ordinators</h3>
+        <p style="font-size: 0.9rem;">Sri Pon Mathu Swasthik P, III-CSE</p>
+        <p style="font-size: 0.9rem;">Arunadevi M, III-CSE</p>
+        <p style="font-size: 0.9rem;">Ram Kumar N, III-CSE</p>
+        <p style="font-size: 0.9rem;">Janani Sri N S, III-CSE</p>
+      </div>
+      <div
+        style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; border-top: 1px solid var(--glass-border); padding-top: 40px; margin-top: 20px;">
+        <div>
+          <h3 style="font-size: 1.1rem; color: var(--cyan);">Chief Patron</h3>
+          <p style="font-size: 0.95rem; font-weight: 600;">Dr. L. Ganesan, <span
+              style="font-weight: 400; opacity: 0.8;">Director</span></p>
+        </div>
+        <div>
+          <h3 style="font-size: 1.1rem; color: var(--cyan);">Patron</h3>
+          <p style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px;">Dr. S. Rajakarunakaran, <span
+              style="font-weight: 400; opacity: 0.8;">Principal</span></p>
+          <p style="font-size: 0.95rem; font-weight: 600;">Dr. K. Vijayalakshmi, <span
+              style="font-weight: 400; opacity: 0.8;">HOD/CSE</span></p>
+        </div>
+        <div style="flex-grow: 1;">
+          <h3 style="font-size: 1.1rem; color: var(--cyan);">Convenor</h3>
+          <p style="font-size: 0.95rem; font-weight: 600;">Dr. M. Pandi, <span
+              style="font-weight: 400; opacity: 0.8;">Professor/CSE</span></p>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 1.2rem; color: var(--cyan);">Contact Us</h3>
+        <div style="margin-bottom: 20px;">
+          <p style="font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 5px;">Faculty Co-ordinator:</p>
+          <p style="font-size: 0.9rem; color: #cbd5e1;">Dr.M.Pandi, Prof/CSE</p>
+          <p style="font-size: 0.9rem; color: #cbd5e1;">9994359938</p>
+        </div>
+        <div>
+          <p style="font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 5px;">Student Co-Ordinator:</p>
+          <p style="font-size: 0.9rem; color: #cbd5e1;">Ram Kumar N - 6369102712</p>
+          <p style="font-size: 0.9rem; color: #cbd5e1;">Sri Pon Mathu Swasthik - 8838525814</p>
+        </div>
+      </div>
+
+      <div class="social-links" style="grid-column: 4; align-self: end; margin-bottom: 15px;">
+        <h3 style="font-size: 1.2rem; margin-bottom: 15px;">Follow Us</h3>
+        <a href="https://www.instagram.com/ritrjpmcse/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/company/ritrjpmcse/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/RITRajapalayam/?modal=admin_todo_tour target=" _blank"><i
+            class="fab fa-facebook-f"></i></a>
+      </div>
+
+      <div class="map-container"
+        style="grid-column: 1 / -1; margin-top: 30px; border-radius: 15px; overflow: hidden; border: 1px solid var(--glass-border);">
+        <iframe
+          src="https://maps.google.com/maps?q=Ramco%20Institute%20of%20Technology,%20Rajapalayam&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 INTELLEXA | Ramco Institute of Technology. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <script src="home.js"></script>
+
+</body>
+
+</html>

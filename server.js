@@ -96,11 +96,15 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
       full_name, year_of_study, degree, department,
       college_name, college_location, email, phone,
       referral_code, transaction_id, events, is_paper,
-      team_name, member_count, member_names, paper_title, abstract
+      team_name, member_count, member_names, paper_title, abstract,
+      is_ipl, ipl_team_name, ipl_member_names
     } = req.body;
+
 
     const parsedEvents = JSON.parse(events || '[]');
     const isPaper = is_paper === '1';
+    const isIpl = is_ipl === '1';
+
 
     // Generate readable sequential ID
     const seq = await getNextSequenceValue('registration_id');
@@ -120,7 +124,9 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
       transactionId: transaction_id,
       events: parsedEvents,
       isPaper,
+      isIpl,
       ipAddress: req.ip,
+
       screenshotPath: req.file ? `uploads/${req.file.filename}` : null // Initial local fallback
     };
 
@@ -169,6 +175,15 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
         wordCount: abstract.trim().split(/\s+/).length
       };
     }
+    
+    if (isIpl) {
+      const parsedIplMemberNames = JSON.parse(ipl_member_names || '[]');
+      registrationData.iplSubmission = {
+        teamName: ipl_team_name,
+        memberNames: parsedIplMemberNames
+      };
+    }
+
 
     const registration = new Registration(registrationData);
     await registration.save();
@@ -282,10 +297,12 @@ app.patch('/api/admin/registrations/:id/status', async (req, res) => {
           yearOfStudy: registration.yearOfStudy,
           events: registration.events,
           isPaper: registration.isPaper,
-          teamName: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.teamName : null,
-          memberNames: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.memberNames : [],
+          isIpl: registration.isIpl,
+          teamName: registration.isPaper ? (registration.paperSubmission ? registration.paperSubmission.teamName : null) : (registration.isIpl ? (registration.iplSubmission ? registration.iplSubmission.teamName : null) : null),
+          memberNames: registration.isPaper ? (registration.paperSubmission ? registration.paperSubmission.memberNames : []) : (registration.isIpl ? (registration.iplSubmission ? registration.iplSubmission.memberNames : []) : []),
           paperTitle: (registration.isPaper && registration.paperSubmission) ? registration.paperSubmission.paperTitle : null,
           confirmedAt: new Date()
+
         };
 
         await Participant.findOneAndUpdate(

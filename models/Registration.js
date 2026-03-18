@@ -9,6 +9,12 @@ const PaperSubmissionSchema = new mongoose.Schema({
   wordCount: Number
 }, { _id: false });
 
+const IplSubmissionSchema = new mongoose.Schema({
+  teamName: String,
+  memberNames: [String]
+}, { _id: false });
+
+
 const RegistrationSchema = new mongoose.Schema({
   registrationId: { type: String, unique: true },
   fullName: { type: String, required: true },
@@ -25,7 +31,10 @@ const RegistrationSchema = new mongoose.Schema({
   events: [String],
   isPaper: { type: Boolean, default: false },
   paperSubmission: PaperSubmissionSchema,
+  isIpl: { type: Boolean, default: false },
+  iplSubmission: IplSubmissionSchema,
   status: { type: String, enum: ['pending', 'confirmed', 'rejected'], default: 'pending' },
+
   ipAddress: String,
   registeredAt: { type: Date, default: Date.now }
 });

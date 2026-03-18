@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details | INTELLEXA '26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="home.css">
+  <style>
+    .details-container {
+      max-width: 800px;
+      margin: 120px auto 50px;
+      padding: 50px;
+      background: rgba(0, 10, 18, 0.6);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      text-align: center;
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+    }
+
+    .details-container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+      font-weight: 800;
+    }
+
+    .details-container p.desc-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 35px;
+      color: #cbd5e1;
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 18px 50px;
+      background: linear-gradient(45deg, var(--blue), var(--cyan));
+      color: white;
+      text-decoration: none;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      transition: 0.4s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.7);
+      background: linear-gradient(45deg, var(--cyan), var(--blue));
+    }
+
+    .info-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+
+    .info-box {
+      background: rgba(2, 11, 20, 0.4);
+      padding: 20px 40px;
+      border-radius: 15px;
+      min-width: 180px;
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+    }
+
+    #event-icon {
+      font-size: 80px;
+      color: var(--cyan);
+      margin-bottom: 20px;
+      text-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+    }
+  </style>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div id="particles-js"></div>
+
+  <nav id="navbar" class="scrolled">
+    <a href="home.html" class="logo">
+      <img src="rit_logo.jpg" alt="RIT Logo" style="height: 40px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">
+      <span class="text-intellexa">INTELLEXA</span> <span class="text-year">'26</span>
+    </a>
+    <ul class="nav-links" style="display:flex; justify-content:flex-end;">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="home.html#events">All Events</a></li>
+    </ul>
+  </nav>
+
+  <div class="details-container">
+    <i id="event-icon" class="fas fa-calendar"></i>
+    <h1 id="event-title">Loading...</h1>
+    <p id="event-desc" class="desc-text">Fetching Event Details.</p>
+
+    <div class="info-boxes">
+      <div class="info-box">
+        <h3 style="color:var(--orange); margin-bottom: 12px; font-size: 1.2rem;">Time</h3>
+        <p id="event-time" style="margin:0; font-size:1.1rem; color: #fff;">09:30 AM Onwards</p>
+      </div>
+      <div class="info-box">
+        <h3 style="color:var(--cyan); margin-bottom: 12px; font-size: 1.2rem;">Venue</h3>
+        <p style="margin:0; font-size:1.1rem; color: #fff;">RIT Campus</p>
+      </div>
+    </div>
+
+    <a href="home.html" class="back-btn">Back to Home</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    // PARTICLES
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 70 },
+        color: { value: ["#00f3ff", "#ff5e00", "#0037ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.6 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#00f3ff", opacity: 0.2, width: 1 },
+        move: { enable: true, speed: 1.5 }
+      }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('event');
+
+    const eventData = {
+      'nexa-workshop': {
+        title: 'NEXA AI Workshop',
+        icon: 'fa-network-wired',
+        time: '09:30 AM',
+        desc: 'Dive into the core logic of predictive modeling and modern deep learning architectures. This exclusive workshop led by industry experts will walk you through cutting-edge neural networks using actual datasets and practical coding labs.'
+      },
+      'ai-prompt-arena': {
+        title: 'AI Prompt Arena',
+        icon: 'fa-robot',
+        time: '10:30 AM',
+        desc: 'Master the art of prompt engineering! Battle against top minds to generate the most accurate, creative, and optimal AI outputs in record time using various Large Language Models.'
+      },
+      'paper-presentation': {
+        title: 'Paper Presentation',
+        icon: 'fa-file-alt',
+        time: '10:30 AM',
+        desc: 'Showcase your research and innovative ideas. Present your technical papers to a panel of expert judges and win exciting rewards.'
+      },
+      'web-design-clash': {
+        title: 'Web Design Clash',
+        icon: 'fa-paint-brush',
+        time: '10:30 AM',
+        desc: 'A front-end development battle! Design and build stunning, responsive user interfaces on the spot based on surprise themes provided on the floor.'
+      },
+      'code-relay': {
+        title: 'Code Relay',
+        icon: 'fa-code',
+        time: '10:30 AM',
+        desc: 'A fast-paced team coding event! Members tag in and out to complete complex algorithmic challenges. Teamwork and logic mapping are key.'
+      },
+      'ipl-auction': {
+        title: 'IPL Auction',
+        icon: 'fa-gavel',
+        time: '10:30 AM',
+        desc: 'Put your strategic thinking to the test. Manage a simulated treasury, place high stakes bids, and formulate the ultimate cricket team in a thrilling live auction environment.'
+      },
+      'creative-reels': {
+        title: 'Creative Reels & Photo Challenge',
+        icon: 'fa-camera-retro',
+        time: '10:30 AM',
+        desc: 'Capture the essence of the fest! Record, edit, and post the most creative reels or photographs of the symposium to win the top media prize.'
+      },
+      'brain-blitz': {
+        title: 'Brain Blitz Quiz',
+        icon: 'fa-brain',
+        time: '10:30 AM',
+        desc: 'Test your general awareness and tech knowledge. A rapid-fire multimedia quiz where missing a beat could cost your team the championship.'
+      },
+      'mindlink-challenge': {
+        title: 'MindLink Challenge',
+        icon: 'fa-link',
+        time: '10:30 AM',
+        desc: 'Connect the clues. An interactive, multi-stage puzzle where you must decipher images, technical slang, and riddles to uncover the hidden mystery.'
+      }
+    };
+
+    const cleanEventId = eventId ? eventId.toLowerCase().trim() : '';
+
+    if (cleanEventId && eventData[cleanEventId]) {
+      const selectedEvent = eventData[cleanEventId];
+      document.getElementById('event-title').innerText = selectedEvent.title;
+      document.getElementById('event-desc').innerText = selectedEvent.desc;
+      document.getElementById('event-time').innerText = selectedEvent.time;
+      document.getElementById('event-icon').className = `fas ${selectedEvent.icon}`;
+    } else {
+      document.getElementById('event-title').innerText = 'Event Not Found';
+      document.getElementById('event-desc').innerText = 'The event details you requested do not exist or may have been renamed.';
+      document.getElementById('event-icon').className = 'fas fa-exclamation-triangle';
+      document.getElementById('event-icon').style.color = '#ff5e00';
+    }
+  </script>
+</body>
+
+</html>
