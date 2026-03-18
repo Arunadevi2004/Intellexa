@@ -152,6 +152,13 @@ app.post('/api/register', upload.single('screenshot'), async (req, res) => {
     }
 
     if (isPaper) {
+      const mc = parseInt(member_count);
+      if (mc > 2) {
+        return res.status(400).json({
+          success: false,
+          message: 'Maximum 2 members allowed for Paper Presentation.'
+        });
+      }
       const parsedMemberNames = JSON.parse(member_names || '[]');
       registrationData.paperSubmission = {
         teamName: team_name,

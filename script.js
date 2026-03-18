@@ -139,7 +139,7 @@ document.getElementById('memberCount').addEventListener('input', function () {
   const count = parseInt(this.value);
   const container = document.getElementById('member-names-container');
   container.innerHTML = '';
-  if (!count || count < 1 || count > 10) return;
+  if (!count || count < 1 || count > 2) return;
 
   const grid = document.createElement('div'); grid.className = 'form-grid';
   for (let i = 1; i <= count; i++) {
@@ -245,7 +245,10 @@ function validateForm() {
     if (!document.getElementById('teamName').value.trim())
       { setError('grp-teamname',true); ok=false; } else setError('grp-teamname',false);
     const mc = parseInt(document.getElementById('memberCount').value);
-    if (!mc || mc < 1) { setError('grp-membercount',true); ok=false; }
+    if (!mc || mc < 1 || mc > 2) { 
+      setError('grp-membercount', true, 'Maximum 2 members allowed for Paper Presentation.'); 
+      ok = false; 
+    }
     else {
       setError('grp-membercount',false);
       for (let i=1; i<=mc; i++) {
