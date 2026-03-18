@@ -157,7 +157,16 @@ document.getElementById('memberCount').addEventListener('input', function () {
   const count = parseInt(this.value);
   const container = document.getElementById('member-names-container');
   container.innerHTML = '';
+  
+  if (count > 2) {
+    setError('grp-membercount', true, 'Maximum 2 members allowed for Paper Presentation.');
+    return;
+  } else if (count >= 1 && count <= 2) {
+    setError('grp-membercount', false);
+  }
+
   if (!count || count < 1 || count > 2) return;
+
 
   const grid = document.createElement('div'); grid.className = 'form-grid';
   for (let i = 1; i <= count; i++) {
