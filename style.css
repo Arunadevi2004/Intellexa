@@ -204,6 +204,62 @@ body::before {
   box-shadow: 0 4px 20px rgba(139,26,26,0.5), 0 0 0 1px rgba(212,160,23,0.3);
 }
 
+.nav-link:hover { color: var(--gold-bright); }
+.nav-link:hover::after { left: 0; right: 0; }
+
+/* =====================================================================
+   NEWS TICKER (Scrolling Banner)
+   ===================================================================== */
+.news-ticker-container {
+  position: sticky;
+  top: 51px; /* Height of the sticky nav */
+  z-index: 99;
+  background: linear-gradient(90deg, var(--maroon), var(--maroon-b));
+  border-bottom: 2px solid var(--gold);
+  height: 34px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.ticker-wrapper {
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: ticker-scroll 30s linear infinite;
+  display: inline-block;
+}
+
+.ticker-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.ticker-content {
+  display: inline-block;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ticker-link {
+  color: #fff;
+  text-decoration: underline;
+  margin-left: 5px;
+  transition: var(--transition);
+}
+
+.ticker-link:hover {
+  color: var(--gold-bright);
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
 /* =====================================================================
    STICKY NAV  –  dark navy, gold underline on hover
    ===================================================================== */
@@ -234,9 +290,6 @@ body::before {
   background: linear-gradient(90deg, var(--maroon), var(--gold), var(--maroon));
   transition: var(--transition);
 }
-
-.nav-link:hover { color: var(--gold-bright); }
-.nav-link:hover::after { left: 0; right: 0; }
 
 /* =====================================================================
    PAGE WRAPPER  –  light blue background
