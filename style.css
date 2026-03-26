@@ -216,18 +216,21 @@ body::before {
   z-index: 99;
   background: linear-gradient(90deg, var(--maroon), var(--maroon-b));
   border-bottom: 2px solid var(--gold);
-  height: 34px;
+  height: 38px; /* Increased slightly for better visibility */
   display: flex;
   align-items: center;
+  justify-content: center; /* Center the static content */
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .ticker-wrapper {
-  white-space: nowrap;
-  padding-left: 100%;
-  animation: ticker-scroll 30s linear infinite;
-  display: inline-block;
+  white-space: normal; /* Allow wrapping if needed */
+  padding-left: 0;
+  animation: none; /* Stop scrolling */
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .ticker-wrapper:hover {
@@ -237,11 +240,12 @@ body::before {
 .ticker-content {
   display: inline-block;
   font-family: 'Rajdhani', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--gold-light);
-  letter-spacing: 1px;
+  font-weight: 800; /* Extra bold */
+  font-size: 15px; /* Slightly larger */
+  color: #fff; /* High contrast white */
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .ticker-link {
