@@ -345,6 +345,22 @@ body::before {
   font-family: 'Rajdhani', sans-serif;
   font-size: 14px; font-weight: 600;
   color: var(--text-mid); letter-spacing: 0.3px;
+  transition: var(--transition);
+  cursor: pointer;
+  display: inline-block;
+}
+
+.event-tag-link {
+  text-decoration: none;
+  display: contents;
+}
+
+.event-tag-link:hover .event-tag {
+  background: #1a4f8a;
+  color: #ffffff;
+  border-color: #1a4f8a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 79, 138, 0.2);
 }
 
 /* =====================================================================
