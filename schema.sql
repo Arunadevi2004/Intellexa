@@ -62,7 +62,7 @@ INSERT IGNORE INTO events (event_name, event_type) VALUES
     ('Web Design Clash',                 'technical'),
     ('Code Relay',                       'technical'),
     ('IPL Auction',                      'nontechnical'),
-    ('Creative Reels & Photo Challenge', 'nontechnical'),
+    ('Photography Contest', 'nontechnical'),
     ('Brain Blitz Quiz',                 'nontechnical'),
     ('MindLink Challenge',               'nontechnical');
 
