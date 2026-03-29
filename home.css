@@ -616,6 +616,22 @@ nav ul li a:hover::after {
   transform: translateZ(10px);
 }
 
+.closed-badge-home {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--orange);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transform: translateZ(40px);
+  box-shadow: 0 4px 15px rgba(255, 94, 0, 0.4);
+  z-index: 10;
+  text-transform: uppercase;
+}
+
 /* TIMELINE */
 .timeline {
   max-width: 600px;
