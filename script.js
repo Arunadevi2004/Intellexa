@@ -401,3 +401,43 @@ document.getElementById('memberCount').addEventListener('input', function () {
   container.appendChild(grid);
   attachLiveClear(container.querySelectorAll('.form-input'));
 });
+
+// Click listener for Workshop elements
+document.addEventListener('click', function(e) {
+  const workshopMsg = "Registration is closed for workshop.. kindly register for other events";
+  const targetTag = e.target.closest('.event-tag-link[href*="nexa-workshop"]');
+  const targetNav = e.target.closest('.nav-link');
+  const targetCard = e.target.closest('#card-nexa');
+  
+  if (targetTag || (targetNav && targetNav.textContent.trim() === 'Workshop') || targetCard) {
+    e.preventDefault(); // Block navigation, scrolling, and checkbox toggle
+    showToast(workshopMsg);
+  }
+});
+
+
+/* ── Toast Notification ── */
+function showToast(message) {
+  let toast = document.querySelector('.toast-container');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'toast-container';
+    toast.innerHTML = `
+      <div class="toast-icon">⚠️</div>
+      <div class="toast-message"></div>
+    `;
+    document.body.appendChild(toast);
+  }
+  
+  const msgEl = toast.querySelector('.toast-message');
+  msgEl.textContent = message;
+  
+  toast.classList.remove('show');
+  void toast.offsetWidth; // Trigger reflow
+  toast.classList.add('show');
+  
+  if (window.toastTimeout) clearTimeout(window.toastTimeout);
+  window.toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 5000);
+}
