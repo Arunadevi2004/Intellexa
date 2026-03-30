@@ -10,6 +10,8 @@ const allCheckboxes = document.querySelectorAll('.checkbox-card input[type="chec
 const evtNexa       = document.getElementById('evt-nexa');
 const evtPaper      = document.getElementById('evt-paper');
 const evtIpl        = document.getElementById('evt-ipl');
+const evtMindlink   = document.getElementById('evt-mindlink');
+
 
 
 /* ── Pill radio highlight on click (OBSOLETE but keeping for safety if any) ── */
@@ -93,22 +95,34 @@ function handleEventChange(cb) {
     });
   }
 
-  if (group === 'nontechnical' && isChecked) {
+  if (group === 'nontechnical') {
     const selectedNonTech = [...document.querySelectorAll('[data-group="nontechnical"]:checked')];
-    if (selectedNonTech.length >= 2) {
-      allCheckboxes.forEach(c => {
-        if (c.dataset.group === 'nontechnical' && !c.checked) {
-          c.closest('.checkbox-card').classList.add('disabled');
-        }
-      });
-    }
-  } else if (group === 'nontechnical' && !isChecked) {
+    const iplChecked = evtIpl && evtIpl.checked;
+    const mindlinkChecked = evtMindlink && evtMindlink.checked;
+
     allCheckboxes.forEach(c => {
       if (c.dataset.group === 'nontechnical') {
-        c.closest('.checkbox-card').classList.remove('disabled');
+        const card = c.closest('.checkbox-card');
+        // If it's already checked, it should obviously not be disabled
+        if (c.checked) {
+          card.classList.remove('disabled');
+        } else {
+          // Case 1: Already selected 2 events, disable the rest
+          let shouldDisable = (selectedNonTech.length >= 2);
+          
+          // Case 2: IPL is selected, disable MindLink
+          if (iplChecked && c === evtMindlink) shouldDisable = true;
+          
+          // Case 3: MindLink is selected, disable IPL
+          if (mindlinkChecked && c === evtIpl) shouldDisable = true;
+
+          if (shouldDisable) card.classList.add('disabled');
+          else card.classList.remove('disabled');
+        }
       }
     });
   }
+
 
   updateCardStyle(cb); handlePaperSection(); handleIplSection();
 }
