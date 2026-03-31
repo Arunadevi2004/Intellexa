@@ -411,42 +411,71 @@
   function calculateTeamCounts() {
     const paperTeams = {};
     const iplTeams = {};
+    
+    // Create a Set of all registered names (normalized) for quick lookup
+    const registeredNames = new Set(allRegistrations.map(r => r.fullName.toLowerCase().trim().replace(/\s+/g, ' ')));
 
-    // We use allRegistrations or filteredRegistrations? 
-    // Usually user wants to know counts based on CURRENT filters.
+    function getMissingMembers(memberNames) {
+      if (!memberNames || !Array.isArray(memberNames)) return [];
+      return memberNames.filter(name => {
+        const normalized = name.toLowerCase().trim().replace(/\s+/g, ' ');
+        return !registeredNames.has(normalized);
+      });
+    }
+
     filteredRegistrations.forEach(reg => {
       if (reg.isPaper && reg.paperSubmission && reg.paperSubmission.teamName) {
         const name = reg.paperSubmission.teamName.toLowerCase().trim();
-        paperTeams[name] = (paperTeams[name] || 0) + 1;
+        if (!paperTeams[name]) {
+          paperTeams[name] = { 
+            count: 0, 
+            missing: getMissingMembers(reg.paperSubmission.memberNames),
+            allMembers: reg.paperSubmission.memberNames
+          };
+        }
+        paperTeams[name].count++;
       }
       if (reg.isIpl && reg.iplSubmission && reg.iplSubmission.teamName) {
         const name = reg.iplSubmission.teamName.toLowerCase().trim();
-        iplTeams[name] = (iplTeams[name] || 0) + 1;
+        if (!iplTeams[name]) {
+          iplTeams[name] = { 
+            count: 0, 
+            missing: getMissingMembers(reg.iplSubmission.memberNames),
+            allMembers: reg.iplSubmission.memberNames
+          };
+        }
+        iplTeams[name].count++;
       }
     });
 
     const paperList = document.getElementById('paper-teams-list');
     const iplList = document.getElementById('ipl-teams-list');
     
-    const paperEntries = Object.entries(paperTeams).sort((a,b) => b[1] - a[1]);
-    const iplEntries = Object.entries(iplTeams).sort((a,b) => b[1] - a[1]);
+    const paperEntries = Object.entries(paperTeams).sort((a,b) => b[1].count - a[1].count);
+    const iplEntries = Object.entries(iplTeams).sort((a,b) => b[1].count - a[1].count);
 
     document.getElementById('paper-team-count').innerText = paperEntries.length;
     document.getElementById('ipl-team-count').innerText = iplEntries.length;
 
-    paperList.innerHTML = paperEntries.map(([name, count]) => `
-      <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #fafafa">
-        <span>${name}</span>
-        <span style="font-weight:700; color:var(--navy)">${count} members</span>
-      </div>
-    `).join('') || 'No teams found';
+    const renderTeamRow = ([name, data]) => {
+      const isComplete = data.missing.length === 0;
+      return `
+        <div style="padding:8px 0; border-bottom:1px solid #eee">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="text-transform:capitalize">${name}</strong>
+            <span style="font-size:0.75rem; color:var(--muted)">${data.allMembers.length} members</span>
+          </div>
+          <div style="margin-top:4px; font-size:0.7rem;">
+            ${isComplete 
+              ? '<span style="color:#16a34a"><i class="fas fa-check-circle"></i> All members registered</span>' 
+              : `<span style="color:#dc2626"><i class="fas fa-exclamation-triangle"></i> Missing: ${data.missing.join(', ')}</span>`}
+          </div>
+        </div>
+      `;
+    };
 
-    iplList.innerHTML = iplEntries.map(([name, count]) => `
-      <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #fafafa">
-        <span>${name}</span>
-        <span style="font-weight:700; color:var(--navy)">${count} members</span>
-      </div>
-    `).join('') || 'No teams found';
+    paperList.innerHTML = paperEntries.map(renderTeamRow).join('') || 'No teams found';
+    iplList.innerHTML = iplEntries.map(renderTeamRow).join('') || 'No teams found';
   }
 </script>
 
