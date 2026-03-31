@@ -264,16 +264,16 @@
            <div style="display:flex; flex-wrap:wrap; gap:4px;">
              ${reg.events.map(e => `<span style="font-size:0.7rem; background:#eff6ff; padding:2px 6px; border-radius:3px; border:1px solid #dbeafe;">${e}</span>`).join('')}
            </div>
-           ${reg.isPaper ? `
+           ${(reg.isPaper && reg.paperSubmission) ? `
              <div style="margin-top:8px; font-size:0.75rem; background:#fff1f2; padding:6px; border-radius:5px; border:1px solid #fecdd3">
                <strong style="color:#9f1239">📄 Paper Presentation</strong><br>
-               <strong>Team:</strong> ${reg.paperSubmission.teamName} (${reg.paperSubmission.memberCount})<br>
-               <strong>Title:</strong> ${reg.paperSubmission.paperTitle}
+               <strong>Team:</strong> ${reg.paperSubmission.teamName || 'N/A'} (${reg.paperSubmission.memberCount || 0})<br>
+               <strong>Title:</strong> ${reg.paperSubmission.paperTitle || 'N/A'}
              </div>` : ''}
-           ${reg.isIpl ? `
+           ${(reg.isIpl && reg.iplSubmission) ? `
              <div style="margin-top:8px; font-size:0.75rem; background:#f0fdf4; padding:6px; border-radius:5px; border:1px solid #dcfce7">
                <strong style="color:#166534">🏏 IPL Auction</strong><br>
-               <strong>Team:</strong> ${reg.iplSubmission.teamName}
+               <strong>Team:</strong> ${reg.iplSubmission.teamName || 'N/A'}
              </div>` : ''}
         </td>
         <td>
@@ -347,17 +347,17 @@
 
       // Add Paper Presentation specific data
       if (reg.isPaper && reg.paperSubmission) {
-        baseData['Paper: Team Name'] = reg.paperSubmission.teamName;
-        baseData['Paper: Member Count'] = reg.paperSubmission.memberCount;
-        baseData['Paper: Member Names'] = reg.paperSubmission.memberNames.join(', ');
-        baseData['Paper: Title'] = reg.paperSubmission.paperTitle;
-        baseData['Paper: Abstract'] = reg.paperSubmission.abstractText;
+        baseData['Paper: Team Name'] = reg.paperSubmission.teamName || '';
+        baseData['Paper: Member Count'] = reg.paperSubmission.memberCount || 0;
+        baseData['Paper: Member Names'] = (reg.paperSubmission.memberNames || []).join(', ');
+        baseData['Paper: Title'] = reg.paperSubmission.paperTitle || '';
+        baseData['Paper: Abstract'] = reg.paperSubmission.abstractText || '';
       }
 
       // Add IPL Auction specific data
       if (reg.isIpl && reg.iplSubmission) {
-        baseData['IPL: Team Name'] = reg.iplSubmission.teamName;
-        baseData['IPL: Member Names'] = reg.iplSubmission.memberNames.join(', ');
+        baseData['IPL: Team Name'] = reg.iplSubmission.teamName || '';
+        baseData['IPL: Member Names'] = (reg.iplSubmission.memberNames || []).join(', ');
       }
 
       return baseData;
