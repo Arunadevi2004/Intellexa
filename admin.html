@@ -123,6 +123,23 @@
     <button onclick="exportToExcel()" style="background: #16a34a; display: flex; align-items: center; gap: 8px;">
       <i class="fas fa-file-excel"></i> DOWNLOAD EXCEL
     </button>
+    <button onclick="toggleTeamStats()" style="background: #6366f1; display: flex; align-items: center; gap: 8px;">
+      <i class="fas fa-users"></i> TEAM STATS
+    </button>
+  </div>
+
+  <div id="team-stats-container" style="display: none; background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 15px; color: var(--navy);">Team Participation Summary</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h4 style="font-size: 0.85rem; color: #9f1239; margin-bottom: 10px;">📄 Paper Presentation Teams (<span id="paper-team-count">0</span>)</h4>
+        <div id="paper-teams-list" style="font-size: 0.8rem; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 5px;"></div>
+      </div>
+      <div>
+        <h4 style="font-size: 0.85rem; color: #166534; margin-bottom: 10px;">🏏 IPL Auction Teams (<span id="ipl-team-count">0</span>)</h4>
+        <div id="ipl-teams-list" style="font-size: 0.8rem; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 5px;"></div>
+      </div>
+    </div>
   </div>
 
   <div id="loading">Loading registrations...</div>
@@ -379,6 +396,57 @@
 
     const fileName = `Intellexa_Registrations_${new Date().toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(workbook, fileName);
+  }
+
+  function toggleTeamStats() {
+    const container = document.getElementById('team-stats-container');
+    if (container.style.display === 'none') {
+      calculateTeamCounts();
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  }
+
+  function calculateTeamCounts() {
+    const paperTeams = {};
+    const iplTeams = {};
+
+    // We use allRegistrations or filteredRegistrations? 
+    // Usually user wants to know counts based on CURRENT filters.
+    filteredRegistrations.forEach(reg => {
+      if (reg.isPaper && reg.paperSubmission && reg.paperSubmission.teamName) {
+        const name = reg.paperSubmission.teamName.toLowerCase().trim();
+        paperTeams[name] = (paperTeams[name] || 0) + 1;
+      }
+      if (reg.isIpl && reg.iplSubmission && reg.iplSubmission.teamName) {
+        const name = reg.iplSubmission.teamName.toLowerCase().trim();
+        iplTeams[name] = (iplTeams[name] || 0) + 1;
+      }
+    });
+
+    const paperList = document.getElementById('paper-teams-list');
+    const iplList = document.getElementById('ipl-teams-list');
+    
+    const paperEntries = Object.entries(paperTeams).sort((a,b) => b[1] - a[1]);
+    const iplEntries = Object.entries(iplTeams).sort((a,b) => b[1] - a[1]);
+
+    document.getElementById('paper-team-count').innerText = paperEntries.length;
+    document.getElementById('ipl-team-count').innerText = iplEntries.length;
+
+    paperList.innerHTML = paperEntries.map(([name, count]) => `
+      <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #fafafa">
+        <span>${name}</span>
+        <span style="font-weight:700; color:var(--navy)">${count} members</span>
+      </div>
+    `).join('') || 'No teams found';
+
+    iplList.innerHTML = iplEntries.map(([name, count]) => `
+      <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #fafafa">
+        <span>${name}</span>
+        <span style="font-weight:700; color:var(--navy)">${count} members</span>
+      </div>
+    `).join('') || 'No teams found';
   }
 </script>
 
