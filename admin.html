@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>INTELLEXA '26 – Admin Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
     :root {
       --navy: #0f3260; --navy2: #1a4f8a; --blue: #3b82c4; --glow: #38bdf8;
@@ -84,17 +85,44 @@
     <div class="stat-card"><span class="stat-val" id="stat-confirmed" style="color:#16a34a">0</span><span class="stat-label">Confirmed</span></div>
     <div class="stat-card"><span class="stat-val" id="stat-pending" style="color:#d97706">0</span><span class="stat-label">Pending</span></div>
     <div class="stat-card"><span class="stat-val" id="stat-rejected" style="color:#dc2626">0</span><span class="stat-label">Rejected</span></div>
+    <div class="stat-card" style="background: var(--navy); color: #fff;"><span class="stat-val" id="stat-filtered" style="color:var(--glow)">0</span><span class="stat-label" style="color: rgba(255,255,255,0.7)">Filtered Count</span></div>
   </div>
 
   <div class="filters">
-    <input type="text" id="search" placeholder="Search name / email / college..." oninput="fetchData()">
-    <select id="status-filter" onchange="fetchData()">
+    <input type="text" id="search" placeholder="Search name / email / college..." oninput="applyFilters()">
+    <select id="status-filter" onchange="applyFilters()">
       <option value="all">All Status</option>
       <option value="pending">Pending</option>
       <option value="confirmed">Confirmed</option>
       <option value="rejected">Rejected</option>
     </select>
+    <select id="event-filter" onchange="applyFilters()">
+      <option value="all">All Events</option>
+      <optgroup label="Workshop">
+        <option value="NEXA AI Workshop">🤖 NEXA AI Workshop</option>
+      </optgroup>
+      <optgroup label="Technical">
+        <option value="AI Prompt Arena">💡 AI Prompt Arena</option>
+        <option value="Paper Presentation">📄 Paper Presentation</option>
+        <option value="Web Design Clash">🌐 Web Design Clash</option>
+        <option value="Code Relay">⚙️ Code Relay</option>
+      </optgroup>
+      <optgroup label="Non-Technical">
+        <option value="IPL Auction">🏏 IPL Auction</option>
+        <option value="Photography Contest">📸 Photography Contest</option>
+        <option value="Brain Blitz Quiz">🧠 Brain Blitz Quiz</option>
+        <option value="MindLink Challenge">🔗 MindLink Challenge</option>
+      </optgroup>
+    </select>
+    <select id="college-type-filter" onchange="applyFilters()">
+      <option value="all">All Colleges</option>
+      <option value="internal">Internal (Ramco Institute of Technology)</option>
+      <option value="external">External Colleges</option>
+    </select>
     <button onclick="fetchData()">RELOAD</button>
+    <button onclick="exportToExcel()" style="background: #16a34a; display: flex; align-items: center; gap: 8px;">
+      <i class="fas fa-file-excel"></i> DOWNLOAD EXCEL
+    </button>
   </div>
 
   <div id="loading">Loading registrations...</div>
@@ -121,6 +149,8 @@
 <script>
   const API_BASE = '/api/admin';
   let isLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+  let allRegistrations = [];
+  let filteredRegistrations = [];
 
   if (isLoggedIn) {
      document.getElementById('login-overlay').style.display = 'none';
@@ -152,11 +182,7 @@
   }
 
   async function fetchData() {
-    const status = document.getElementById('status-filter').value;
-    const search = document.getElementById('search').value;
-    
     document.getElementById('loading').style.display = 'block';
-    
     try {
       // Fetch Stats
       const statRes = await fetch(`${API_BASE}/stats`);
@@ -168,50 +194,103 @@
         document.getElementById('stat-rejected').innerText = statData.stats.rejected;
       }
 
-      // Fetch Rows
-      const bodyRes = await fetch(`${API_BASE}/registrations?status=${status}&search=${search}`);
+      // Fetch All Rows (unfiltered from server to allow advanced client-side filtering)
+      const bodyRes = await fetch(`${API_BASE}/registrations?status=all`);
       const bodyData = await bodyRes.json();
       
-      const tbody = document.getElementById('reg-table-body');
-      tbody.innerHTML = '';
-      
-      bodyData.registrations.forEach(reg => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>
-            <strong>${reg.fullName}</strong><br>
-            <small style="color:var(--muted)">${reg.email} | ${reg.phone}</small><br>
-            <small>${reg.yearOfStudy} | ${reg.degree}</small>
-          </td>
-          <td>
-            <strong>${reg.collegeName}</strong><br>
-            <small>${reg.department}</small>
-          </td>
-          <td>
-             ${reg.events.map(e => `<div style="font-size:0.7rem; background:#eff6ff; padding:2px 5px; margin:2px 0; border-radius:3px;">${e}</div>`).join('')}
-             ${reg.isPaper ? `<div style="font-size:0.7rem; background:#fff1f2; padding:2px 5px; margin:2px 0; border-radius:3px; border:1px solid #fecdd3">Team: ${reg.paperSubmission.teamName}</div>` : ''}
-          </td>
-          <td>
-            <small>ID: ${reg.transactionId}</small><br>
-            <a href="${reg.screenshotPath.startsWith('http') ? reg.screenshotPath : '/' + reg.screenshotPath}" target="_blank" class="view-btn">View Screenshot →</a>
-          </td>
-          <td><span class="badge ${reg.status}">${reg.status}</span></td>
-          <td>
-            <select class="action-select" onchange="updateStatus('${reg._id}', this.value)">
-              <option value="pending" ${reg.status === 'pending' ? 'selected' : ''}>Pending</option>
-              <option value="confirmed" ${reg.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-              <option value="rejected" ${reg.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-            </select>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      if (bodyData.success) {
+        allRegistrations = bodyData.registrations;
+        applyFilters(); 
+      }
       
     } catch (e) {
       console.error(e);
+      alert('Error fetching data: ' + e.message);
     } finally {
       document.getElementById('loading').style.display = 'none';
     }
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('search').value.toLowerCase();
+    const status = document.getElementById('status-filter').value;
+    const event = document.getElementById('event-filter').value;
+    const collegeType = document.getElementById('college-type-filter').value;
+
+    filteredRegistrations = allRegistrations.filter(reg => {
+      // Search
+      const matchesSearch = !search || 
+        reg.fullName.toLowerCase().includes(search) || 
+        reg.email.toLowerCase().includes(search) || 
+        reg.collegeName.toLowerCase().includes(search) ||
+        reg.registrationId.toLowerCase().includes(search);
+
+      // Status
+      const matchesStatus = status === 'all' || reg.status === status;
+
+      // Event
+      const matchesEvent = event === 'all' || reg.events.includes(event);
+
+      // College Type
+      const isInternal = reg.collegeName.toLowerCase().includes('ramco institute of technology');
+      const matchesCollege = collegeType === 'all' || 
+                             (collegeType === 'internal' && isInternal) ||
+                             (collegeType === 'external' && !isInternal);
+
+      return matchesSearch && matchesStatus && matchesEvent && matchesCollege;
+    });
+
+    renderTable();
+    document.getElementById('stat-filtered').innerText = filteredRegistrations.length;
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('reg-table-body');
+    tbody.innerHTML = '';
+    
+    filteredRegistrations.forEach(reg => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <strong>${reg.fullName}</strong><br>
+          <small style="color:var(--muted)">${reg.registrationId} | ${reg.email}</small><br>
+          <small>${reg.yearOfStudy} | ${reg.phone}</small>
+        </td>
+        <td>
+          <strong>${reg.collegeName}</strong><br>
+          <small>${reg.department}</small>
+        </td>
+        <td>
+           <div style="display:flex; flex-wrap:wrap; gap:4px;">
+             ${reg.events.map(e => `<span style="font-size:0.7rem; background:#eff6ff; padding:2px 6px; border-radius:3px; border:1px solid #dbeafe;">${e}</span>`).join('')}
+           </div>
+           ${reg.isPaper ? `
+             <div style="margin-top:8px; font-size:0.75rem; background:#fff1f2; padding:6px; border-radius:5px; border:1px solid #fecdd3">
+               <strong style="color:#9f1239">📄 Paper Presentation</strong><br>
+               <strong>Team:</strong> ${reg.paperSubmission.teamName} (${reg.paperSubmission.memberCount})<br>
+               <strong>Title:</strong> ${reg.paperSubmission.paperTitle}
+             </div>` : ''}
+           ${reg.isIpl ? `
+             <div style="margin-top:8px; font-size:0.75rem; background:#f0fdf4; padding:6px; border-radius:5px; border:1px solid #dcfce7">
+               <strong style="color:#166534">🏏 IPL Auction</strong><br>
+               <strong>Team:</strong> ${reg.iplSubmission.teamName}
+             </div>` : ''}
+        </td>
+        <td>
+          <small>TXN: ${reg.transactionId}</small><br>
+          <a href="${reg.screenshotPath.startsWith('http') ? reg.screenshotPath : '/' + reg.screenshotPath}" target="_blank" class="view-btn">View Receipt →</a>
+        </td>
+        <td><span class="badge ${reg.status}">${reg.status}</span></td>
+        <td>
+          <select class="action-select" onchange="updateStatus('${reg._id}', this.value)">
+            <option value="pending" ${reg.status === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="confirmed" ${reg.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+            <option value="rejected" ${reg.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+          </select>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
   }
 
   async function updateStatus(id, newStatus) {
@@ -223,9 +302,83 @@
       });
       const data = await res.json();
       if (data.success) {
-        fetchData(); // Refresh list and stats
+        // Update local data to reflect change without full reload
+        const idx = allRegistrations.findIndex(r => r._id === id);
+        if (idx !== -1) allRegistrations[idx].status = newStatus;
+        applyFilters(); 
+        
+        // Refresh stats
+        const statRes = await fetch(`${API_BASE}/stats`);
+        const statData = await statRes.json();
+        if (statData.success) {
+          document.getElementById('stat-total').innerText = statData.stats.total;
+          document.getElementById('stat-confirmed').innerText = statData.stats.confirmed;
+          document.getElementById('stat-pending').innerText = statData.stats.pending;
+          document.getElementById('stat-rejected').innerText = statData.stats.rejected;
+        }
       }
     } catch (e) { alert('Update failed: ' + e.message); }
+  }
+
+  function exportToExcel() {
+    if (filteredRegistrations.length === 0) {
+      alert('No records to export');
+      return;
+    }
+
+    const exportData = filteredRegistrations.map(reg => {
+      const isInternal = reg.collegeName.toLowerCase().includes('ramco institute of technology');
+      
+      const baseData = {
+        'Reg ID': reg.registrationId,
+        'Full Name': reg.fullName,
+        'Email': reg.email,
+        'Phone': reg.phone,
+        'College': reg.collegeName,
+        'College Type': isInternal ? 'Internal' : 'External',
+        'Department': reg.department,
+        'Year': reg.yearOfStudy,
+        'Degree': reg.degree,
+        'Status': reg.status.toUpperCase(),
+        'Events': reg.events.join(', '),
+        'Transaction ID': reg.transactionId,
+        'Registered At': new Date(reg.registeredAt).toLocaleString()
+      };
+
+      // Add Paper Presentation specific data
+      if (reg.isPaper && reg.paperSubmission) {
+        baseData['Paper: Team Name'] = reg.paperSubmission.teamName;
+        baseData['Paper: Member Count'] = reg.paperSubmission.memberCount;
+        baseData['Paper: Member Names'] = reg.paperSubmission.memberNames.join(', ');
+        baseData['Paper: Title'] = reg.paperSubmission.paperTitle;
+        baseData['Paper: Abstract'] = reg.paperSubmission.abstractText;
+      }
+
+      // Add IPL Auction specific data
+      if (reg.isIpl && reg.iplSubmission) {
+        baseData['IPL: Team Name'] = reg.iplSubmission.teamName;
+        baseData['IPL: Member Names'] = reg.iplSubmission.memberNames.join(', ');
+      }
+
+      return baseData;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+    
+    // Auto-size columns
+    const maxWidths = {};
+    exportData.forEach(row => {
+      Object.keys(row).forEach(key => {
+        const val = String(row[key] || '');
+        maxWidths[key] = Math.max(maxWidths[key] || 10, val.length, key.length);
+      });
+    });
+    worksheet['!cols'] = Object.keys(maxWidths).map(key => ({ wch: maxWidths[key] + 2 }));
+
+    const fileName = `Intellexa_Registrations_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
   }
 </script>
 
