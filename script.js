@@ -416,23 +416,16 @@ document.getElementById('memberCount').addEventListener('input', function () {
   attachLiveClear(container.querySelectorAll('.form-input'));
 });
 
-// Click listener for Workshop and Paper Presentation elements
+// Click listener for Workshop elements
 document.addEventListener('click', function(e) {
   const workshopMsg = "Registration is closed for workshop.. kindly register for other events";
-  const paperMsg    = "Registration is closed for Paper Presentation.. kindly register for other events";
+  const targetTag = e.target.closest('.event-tag-link[href*="nexa-workshop"]');
+  const targetNav = e.target.closest('.nav-link');
+  const targetCard = e.target.closest('#card-nexa');
   
-  const targetWorkshopTag = e.target.closest('.event-tag-link[href*="nexa-workshop"]');
-  const targetPaperTag    = e.target.closest('.event-tag-link[href*="paper-presentation"]');
-  const targetNav         = e.target.closest('.nav-link');
-  const targetWorkshopCard = e.target.closest('#card-nexa');
-  const targetPaperCard    = e.target.closest('#card-paper');
-  
-  if (targetWorkshopTag || (targetNav && targetNav.textContent.trim() === 'Workshop') || targetWorkshopCard) {
-    e.preventDefault();
+  if (targetTag || (targetNav && targetNav.textContent.trim() === 'Workshop') || targetCard) {
+    e.preventDefault(); // Block navigation, scrolling, and checkbox toggle
     showToast(workshopMsg);
-  } else if (targetPaperTag || targetPaperCard) {
-    e.preventDefault();
-    showToast(paperMsg);
   }
 });
 

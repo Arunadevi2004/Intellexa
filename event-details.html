@@ -246,13 +246,10 @@
       document.getElementById('event-time').innerText = selectedEvent.time;
       document.getElementById('event-icon').className = `fas ${selectedEvent.icon}`;
 
-      // Show toast if workshop or paper-presentation and redirect
-      if (cleanEventId === 'nexa-workshop' || cleanEventId === 'paper-presentation') {
-        const msg = cleanEventId === 'nexa-workshop' 
-          ? "Registration is closed for workshop.. Redirecting to other events..."
-          : "Registration is closed for Paper Presentation.. Redirecting to other events...";
+      // Show toast if workshop and redirect
+      if (cleanEventId === 'nexa-workshop') {
         setTimeout(() => {
-          showToast(msg);
+          showToast("Registration is closed for workshop.. Redirecting to other events...");
           setTimeout(() => {
             window.location.href = 'home.html#events';
           }, 3500);
