@@ -416,16 +416,21 @@ document.getElementById('memberCount').addEventListener('input', function () {
   attachLiveClear(container.querySelectorAll('.form-input'));
 });
 
-// Click listener for Workshop and Paper Presentation elements
+// Click listener for Workshop, Paper Presentation, and AI Prompt Arena
 document.addEventListener('click', function(e) {
   const workshopMsg = "Registration is closed for workshop.. kindly register for other events";
   const paperMsg    = "Registration is closed for Paper Presentation.. kindly register for other events";
+  const promptMsg   = "Registration is closed for AI Prompt Arena.. kindly register for other events";
   
   const targetWorkshopTag = e.target.closest('.event-tag-link[href*="nexa-workshop"]');
   const targetPaperTag    = e.target.closest('.event-tag-link[href*="paper-presentation"]');
+  const targetPromptTag   = e.target.closest('.event-tag-link[href*="ai-prompt-arena"]');
+  
   const targetNav         = e.target.closest('.nav-link');
+  
   const targetWorkshopCard = e.target.closest('#card-nexa');
   const targetPaperCard    = e.target.closest('#card-paper');
+  const targetPromptCard   = e.target.closest('#card-ai-prompt');
   
   if (targetWorkshopTag || (targetNav && targetNav.textContent.trim() === 'Workshop') || targetWorkshopCard) {
     e.preventDefault();
@@ -433,6 +438,9 @@ document.addEventListener('click', function(e) {
   } else if (targetPaperTag || targetPaperCard) {
     e.preventDefault();
     showToast(paperMsg);
+  } else if (targetPromptTag || targetPromptCard) {
+    e.preventDefault();
+    showToast(promptMsg);
   }
 });
 

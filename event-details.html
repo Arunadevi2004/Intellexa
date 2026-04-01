@@ -246,11 +246,14 @@
       document.getElementById('event-time').innerText = selectedEvent.time;
       document.getElementById('event-icon').className = `fas ${selectedEvent.icon}`;
 
-      // Show toast if workshop or paper-presentation and redirect
-      if (cleanEventId === 'nexa-workshop' || cleanEventId === 'paper-presentation') {
-        const msg = cleanEventId === 'nexa-workshop' 
-          ? "Registration is closed for workshop.. Redirecting to other events..."
-          : "Registration is closed for Paper Presentation.. Redirecting to other events...";
+      // Show toast if workshop, paper-presentation, or ai-prompt-arena and redirect
+      const isClosed = ['nexa-workshop', 'paper-presentation', 'ai-prompt-arena'].includes(cleanEventId);
+      if (isClosed) {
+        let msg = "";
+        if (cleanEventId === 'nexa-workshop') msg = "Registration is closed for workshop.. Redirecting to other events...";
+        else if (cleanEventId === 'paper-presentation') msg = "Registration is closed for Paper Presentation.. Redirecting to other events...";
+        else if (cleanEventId === 'ai-prompt-arena') msg = "Registration is closed for AI Prompt Arena.. Redirecting to other events...";
+        
         setTimeout(() => {
           showToast(msg);
           setTimeout(() => {
