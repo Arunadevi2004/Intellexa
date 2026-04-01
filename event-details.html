@@ -246,7 +246,18 @@
       document.getElementById('event-time').innerText = selectedEvent.time;
       document.getElementById('event-icon').className = `fas ${selectedEvent.icon}`;
 
-      // Registration opened - removing "Closed" event redirection
+      // Show toast if workshop or paper-presentation and redirect
+      if (cleanEventId === 'nexa-workshop' || cleanEventId === 'paper-presentation') {
+        const msg = cleanEventId === 'nexa-workshop' 
+          ? "Registration is closed for workshop.. Redirecting to other events..."
+          : "Registration is closed for Paper Presentation.. Redirecting to other events...";
+        setTimeout(() => {
+          showToast(msg);
+          setTimeout(() => {
+            window.location.href = 'home.html#events';
+          }, 3500);
+        }, 800);
+      }
     } else {
       document.getElementById('event-title').innerText = 'Event Not Found';
       document.getElementById('event-desc').innerText = 'The event details you requested do not exist or may have been renamed.';
