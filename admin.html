@@ -123,6 +123,9 @@
     <button onclick="exportToExcel()" style="background: #16a34a; display: flex; align-items: center; gap: 8px;">
       <i class="fas fa-file-excel"></i> DOWNLOAD EXCEL
     </button>
+    <button onclick="exportPaperTeams()" style="background: #9f1239; display: flex; align-items: center; gap: 8px;">
+      <i class="fas fa-file-download"></i> PAPER TEAMS
+    </button>
     <button onclick="toggleTeamStats()" style="background: #6366f1; display: flex; align-items: center; gap: 8px;">
       <i class="fas fa-users"></i> TEAM STATS
     </button>
@@ -395,6 +398,81 @@
     worksheet['!cols'] = Object.keys(maxWidths).map(key => ({ wch: maxWidths[key] + 2 }));
 
     const fileName = `Intellexa_Registrations_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+  }
+
+  function exportPaperTeams() {
+    // Filter allRegistrations for Paper Presentation
+    const paperRegs = allRegistrations.filter(reg => reg.isPaper && reg.paperSubmission);
+
+    if (paperRegs.length === 0) {
+      alert('No Paper Presentation records found');
+      return;
+    }
+
+    // Apply current status and college filters from the UI
+    const status = document.getElementById('status-filter').value;
+    const collegeType = document.getElementById('college-type-filter').value;
+    const search = document.getElementById('search').value.toLowerCase();
+
+    const filtered = paperRegs.filter(reg => {
+      const matchesStatus = status === 'all' || reg.status === status;
+      const isInternal = reg.collegeName.toLowerCase().includes('ramco institute of technology');
+      const matchesCollege = collegeType === 'all' || 
+                             (collegeType === 'internal' && isInternal) ||
+                             (collegeType === 'external' && !isInternal);
+      const matchesSearch = !search || 
+        reg.fullName.toLowerCase().includes(search) || 
+        reg.email.toLowerCase().includes(search) || 
+        reg.collegeName.toLowerCase().includes(search) ||
+        reg.registrationId.toLowerCase().includes(search);
+      
+      return matchesStatus && matchesCollege && matchesSearch;
+    });
+
+    if (filtered.length === 0) {
+      alert('No Paper Presentation records match the current filters');
+      return;
+    }
+
+    // Consolidate by Unique Team Name (Case-Insensitive)
+    const uniqueTeams = new Map();
+    filtered.forEach(reg => {
+      const teamName = reg.paperSubmission.teamName || 'N/A';
+      const key = teamName.toLowerCase().trim();
+      
+      if (!uniqueTeams.has(key)) {
+        uniqueTeams.set(key, {
+          'Team Name': teamName,
+          'Team Members': (reg.paperSubmission.memberNames || []).join(', '),
+          'Abstract Title': reg.paperSubmission.paperTitle || 'N/A',
+          'Abstract': reg.paperSubmission.abstractText || 'N/A',
+          'College': reg.collegeName,
+          'Department': reg.department
+        });
+      }
+    });
+
+    const exportData = Array.from(uniqueTeams.values());
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Paper Teams");
+    
+    // Auto-size columns
+    const maxWidths = {};
+    if (exportData.length > 0) {
+      Object.keys(exportData[0]).forEach(key => {
+        maxWidths[key] = Math.max(10, key.length);
+        exportData.forEach(row => {
+          const val = String(row[key] || '');
+          maxWidths[key] = Math.max(maxWidths[key], val.length);
+        });
+      });
+      worksheet['!cols'] = Object.keys(maxWidths).map(key => ({ wch: Math.min(maxWidths[key] + 2, 50) })); // Cap width for readability
+    }
+
+    const fileName = `Intellexa_Paper_Teams_${new Date().toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(workbook, fileName);
   }
 
